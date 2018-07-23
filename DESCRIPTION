@@ -1,0 +1,15 @@
+Package: pzfx
+Type: Package
+Title: Read Prism Graphpad Files
+Version: 0.1.0
+Authors@R: c(
+    person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517"))
+    )
+Description: Read Prism Graphpad '.pzfx' files into R.
+Imports:
+    xml2
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Suggests: testthat
