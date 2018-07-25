@@ -32,5 +32,18 @@ read_pzfx <- function(path, table = 1) {
   xml <- xml2::read_xml(path)
   table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table']")
   this_table <- as_list(table_nodes[[this_idx]])
+  if (!"Title" %in% names(this_table)) stop("Can't work with this pzfx file, is it later than v6.0?")
+  if (is.character(table) && table != this_table[["Title"]]) stop("Can't work with this pzfx file, is it later than v6.0?")
 
+  col_lst <- list()
+  col_names <- c()
+  for (i in seq_len(length(this_table))) {
+    if ("Column" %in% names(this_table)[[i]]) {
+      # this is a data column, parse it
+
+      this_col <- pzfx::read_col(this_table[[i]])
+    }
+    # parse all sub columns
+
+  }
 }
