@@ -4,6 +4,11 @@
 #' @param table Table to read. Either a string (the name of a table), or an
 #'   integer (the position of the table). If neither argument specifies the
 #'   table, defaults to the first table.
+#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
+#'   values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+#'   "*" is added, the column will be of type character.
+#' @param tidify Logical. Should output data frame be tidified. Currently
+#'   not implemented.
 #'
 #' @return a data frame
 #'
@@ -13,7 +18,7 @@
 #' }
 #'
 #' @export
-read_pzfx <- function(path, table = 1) {
+read_pzfx <- function(path, table=1, strike_action="exclude", tidify=FALSE) {
   # sanity check
   table_names <- pzfx::pzfx_tables(path)
   if (is.numeric(table)) {
@@ -31,19 +36,35 @@ read_pzfx <- function(path, table = 1) {
 
   xml <- xml2::read_xml(path)
   table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table']")
-  this_table <- as_list(table_nodes[[this_idx]])
+  this_table <- xml2::as_list(table_nodes[[this_idx]])
   if (!"Title" %in% names(this_table)) stop("Can't work with this pzfx file, is it later than v6.0?")
   if (is.character(table) && table != this_table[["Title"]]) stop("Can't work with this pzfx file, is it later than v6.0?")
 
-  col_lst <- list()
-  col_names <- c()
-  for (i in seq_len(length(this_table))) {
-    if ("Column" %in% names(this_table)[[i]]) {
-      # this is a data column, parse it
-
-      this_col <- pzfx::read_col(this_table[[i]])
-    }
-    # parse all sub columns
-
+  x_format <- ""
+  if ("XFormat" %in% names(attributes(this_table))) {
+    x_format <- attributes(this_table)$XFormat
   }
+  y_format <- ""
+  if ("YFormat" %in% names(attributes(this_table))) {
+    y_format <- attributes(this_table)$YFormat
+  }
+
+  col_lst <- list()
+  for (i in seq_len(length(this_table))) {
+    if (names(this_table)[i] == "XColumn") {
+      this_col <- pzfx:::read_col(
+        this_table[[i]],
+        strike_action=strike_action,
+        format=x_format)
+      col_lst[[length(col_lst) + 1]] <- this_col
+    } else if (names(this_table)[i] == "YColumn") {
+      this_col <- pzfx:::read_col(
+        this_table[[i]],
+        strike_action=strike_action,
+        format=y_format)
+      col_lst[[length(col_lst) + 1]] <- this_col
+    }
+  }
+  ret <- Reduce("cbind", col_lst)
+  return(ret)
 }
