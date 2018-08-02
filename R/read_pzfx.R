@@ -55,8 +55,20 @@ read_pzfx <- function(path, table=1, strike_action="exclude", tidify=FALSE) {
       this_col <- pzfx:::read_col(
         this_table[[i]],
         strike_action=strike_action,
+        col_name="X",
         format=x_format)
-      col_lst[[length(col_lst) + 1]] <- this_col
+      if (nrow(this_col) > 0) {
+        col_lst[[length(col_lst) + 1]] <- this_col
+      }
+    } else if (names(this_table)[i] == "RowTitlesColumn") {
+      this_col <- pzfx:::read_col(
+        this_table[[i]],
+        strike_action=strike_action,
+        col_name="ROWTITLE",
+        format="")
+      if (nrow(this_col) > 0) {
+        col_lst[[length(col_lst) + 1]] <- this_col
+      }
     } else if (names(this_table)[i] == "YColumn") {
       this_col <- pzfx:::read_col(
         this_table[[i]],
@@ -65,6 +77,15 @@ read_pzfx <- function(path, table=1, strike_action="exclude", tidify=FALSE) {
       col_lst[[length(col_lst) + 1]] <- this_col
     }
   }
-  ret <- Reduce("cbind", col_lst)
+
+  max_len <- max(sapply(col_lst, nrow))
+  long_col_lst <- lapply(col_lst, function(c) {
+    while (nrow(c) < max_len) {
+      c <- rbind(c, NA)
+    }
+    c
+  })
+
+  ret <- Reduce("cbind", long_col_lst)
   return(ret)
 }

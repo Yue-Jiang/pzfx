@@ -18,6 +18,7 @@ read_subcol <- function(subcol, strike_action="exclude") {
   vals <- rep(NA, length(subcol))
   for (i in seq_len(length(subcol))) {
     val <- unlist(subcol[[i]])
+    if (is.null(val)) val <- NA
     if ("Excluded" %in% names(attributes(subcol[[i]]))) {
       if (attr(subcol[[i]], "Excluded") == "1") {
         if (strike_action %in% c("exclude", "e")) {

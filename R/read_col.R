@@ -5,6 +5,8 @@
 #'   values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 #'   "*" is added, the column will be of type character.
 #' @param format A character string reflecting the XFormat or YFormat attribute of a pzfx table.
+#' @param col_name A character string for default base column name. Will be disregarded if column
+#'   has title.
 #' @param tidify Logical. Should output data frame be tidified. Currently
 #'   not implemented.
 #'
@@ -18,8 +20,8 @@ read_col <- function(
   col,
   strike_action="exclude",
   format="",
+  col_name="",
   tidify=FALSE) {
-  col_name <- ""
   if ("Title" %in% names(col)) {
     col_name <- unlist(col[["Title"]])
   }
@@ -31,11 +33,10 @@ read_col <- function(
     }
   }
 
-
   if (length(subcol_lst) == 1) {
     col_names <- col_name
   } else if (format == "error") {
-    col_names <- paste0(col_name)
+    col_names <- paste0(col_name, c("_X", "_ERROR"))
   } else if (format == "replicates") {
     col_names <- paste(col_name, seq_len(length(subcol_lst)), sep="_")
   } else if (format == "SDN") {
@@ -60,6 +61,14 @@ read_col <- function(
     stop("Sorry, don't know how to parse column format.")
   }
 
-  ret <- as.data.frame(subcol_lst, col.names=col_names)
+  names(subcol_lst) <- col_names
+  max_len <- max(sapply(subcol_lst, length))
+  long_subcol_lst <- lapply(subcol_lst, function(s) {
+    length(s) <- max_len
+    s
+  })
+
+  ret <- as.data.frame(long_subcol_lst, stringsAsFactors=FALSE)
+  names(ret) <- col_names
   return(ret)
 }
