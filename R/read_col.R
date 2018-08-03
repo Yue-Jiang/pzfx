@@ -16,7 +16,7 @@
 #' }
 read_col <- function(col, strike_action="exclude", format="", col_name="") {
   if ("Title" %in% names(col)) {
-    col_name <- unlist(col[["Title"]])
+    col_name <- paste(unlist(col[["Title"]]), collapse="")
   }
   subcol_lst <- list()
   for (i in seq_len(length(col))) {
