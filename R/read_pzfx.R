@@ -7,8 +7,6 @@
 #' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
 #'   values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 #'   "*" is added, the column will be of type character.
-#' @param tidify Logical. Should output data frame be tidified. Currently
-#'   not implemented.
 #'
 #' @return a data frame
 #'
@@ -18,7 +16,7 @@
 #' }
 #'
 #' @export
-read_pzfx <- function(path, table=1, strike_action="exclude", tidify=FALSE) {
+read_pzfx <- function(path, table=1, strike_action="exclude") {
   # sanity check
   table_names <- pzfx::pzfx_tables(path)
   if (is.numeric(table)) {

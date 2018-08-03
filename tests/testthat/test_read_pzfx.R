@@ -117,10 +117,31 @@ test_that("Test excluded values", {
   expect_equal(pzfx, expected)
 })
 
+test_that("Test survival data", {
+  pzfx_file <- system.file("testdata/survival.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/survival.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, check.names=FALSE, stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
+test_that("Test parts of whole data", {
+  pzfx_file <- system.file("testdata/parts_of_whole.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/parts_of_whole.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, check.names=FALSE, comment.char="", stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
 test_that("Test columns with different lengths", {
   pzfx_file <- system.file("testdata/column_unequal_lengths.pzfx", package="pzfx", mustWork=TRUE)
   expected_file <- system.file("testdata/column_unequal_lengths.tab", package="pzfx", mustWork=TRUE)
   pzfx <- read_pzfx(pzfx_file)
   expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
   expect_equal(pzfx, expected)
+})
+
+test_that("Should raise when table is absent", {
+  pzfx_file <- system.file("testdata/parts_of_whole.pzfx", package="pzfx", mustWork=TRUE)
+  expect_error(read_pzfx(pzfx_file, "WrongTab"), "Can't find WrongTab in prism file")
 })

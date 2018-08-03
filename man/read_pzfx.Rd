@@ -4,7 +4,7 @@
 \alias{read_pzfx}
 \title{Read pzfx files}
 \usage{
-read_pzfx(path, table = 1, strike_action = "exclude", tidify = FALSE)
+read_pzfx(path, table = 1, strike_action = "exclude")
 }
 \arguments{
 \item{path}{Path to the pzfx file.}
@@ -16,9 +16,6 @@ table, defaults to the first table.}
 \item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
 values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.}
-
-\item{tidify}{Logical. Should output data frame be tidified. Currently
-not implemented.}
 }
 \value{
 a data frame

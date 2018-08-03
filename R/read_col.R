@@ -7,8 +7,6 @@
 #' @param format A character string reflecting the XFormat or YFormat attribute of a pzfx table.
 #' @param col_name A character string for default base column name. Will be disregarded if column
 #'   has title.
-#' @param tidify Logical. Should output data frame be tidified. Currently
-#'   not implemented.
 #'
 #' @return  a data frame with parsed column data..
 #'
@@ -16,12 +14,7 @@
 #' \dontrun{
 #' read_col(col_list)
 #' }
-read_col <- function(
-  col,
-  strike_action="exclude",
-  format="",
-  col_name="",
-  tidify=FALSE) {
+read_col <- function(col, strike_action="exclude", format="", col_name="") {
   if ("Title" %in% names(col)) {
     col_name <- unlist(col[["Title"]])
   }

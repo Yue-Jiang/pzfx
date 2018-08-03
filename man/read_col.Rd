@@ -4,8 +4,7 @@
 \alias{read_col}
 \title{Parse one column}
 \usage{
-read_col(col, strike_action = "exclude", format = "", col_name = "",
-  tidify = FALSE)
+read_col(col, strike_action = "exclude", format = "", col_name = "")
 }
 \arguments{
 \item{col}{A list converted from the XML that corresponds to one column in a pzfx file.}
@@ -18,9 +17,6 @@ values in the original pzfx be excluded, kept or labeled with a trailing "*". If
 
 \item{col_name}{A character string for default base column name. Will be disregarded if column
 has title.}
-
-\item{tidify}{Logical. Should output data frame be tidified. Currently
-not implemented.}
 }
 \value{
 a data frame with parsed column data..
