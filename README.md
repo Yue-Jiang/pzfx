@@ -12,3 +12,12 @@ devtools::install_github("Yue-Jiang/pzfx")
 
 To list tables in a .pzfx file
 ```
+library(pzfx)
+pzfx_tables("/path/to/my/pzfx/file")
+```
+
+To read a specific table from a .pzfx file
+```
+df <- read_pzfx("/path/to/my/pzfx/file", 1) # read first table
+df <- read_pzfx("/path/to/my/pzfx/file", "Table Name") # read table by name
+```
