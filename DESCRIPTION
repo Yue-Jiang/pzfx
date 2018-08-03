@@ -6,6 +6,8 @@ Authors@R: c(
     person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517"))
     )
 Description: Read Prism Graphpad '.pzfx' files into R.
+URL: https://github.com/Yue-Jiang/pzfx
+BugReports: https://github.com/Yue-Jiang/pzfx/issues
 Imports:
     xml2
 License: MIT
