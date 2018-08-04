@@ -50,7 +50,7 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
   col_lst <- list()
   for (i in seq_len(length(this_table))) {
     if (names(this_table)[i] == "XColumn") {
-      this_col <- pzfx:::read_col(
+      this_col <- read_col(
         this_table[[i]],
         strike_action=strike_action,
         col_name="X",
@@ -59,7 +59,7 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
         col_lst[[length(col_lst) + 1]] <- this_col
       }
     } else if (names(this_table)[i] == "RowTitlesColumn") {
-      this_col <- pzfx:::read_col(
+      this_col <- read_col(
         this_table[[i]],
         strike_action=strike_action,
         col_name="ROWTITLE",
@@ -68,7 +68,7 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
         col_lst[[length(col_lst) + 1]] <- this_col
       }
     } else if (names(this_table)[i] == "YColumn") {
-      this_col <- pzfx:::read_col(
+      this_col <- read_col(
         this_table[[i]],
         strike_action=strike_action,
         format=y_format)

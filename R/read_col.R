@@ -21,7 +21,7 @@ read_col <- function(col, strike_action="exclude", format="", col_name="") {
   subcol_lst <- list()
   for (i in seq_len(length(col))) {
     if (names(col)[i] == "Subcolumn") {
-      this_subcol <- pzfx:::read_subcol(col[[i]], strike_action=strike_action)
+      this_subcol <- read_subcol(col[[i]], strike_action=strike_action)
       subcol_lst[[length(subcol_lst) + 1]] <- this_subcol
     }
   }
