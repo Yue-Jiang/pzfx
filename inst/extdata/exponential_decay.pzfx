@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><GraphPadPrismFile PrismXMLVersion="5.00">
+<Created>
+<OriginalVersion CreatedByProgram="GraphPad Prism" CreatedByVersion="6.0f.254" Login="yuejiang" DateTime="2018-09-02T16:57:49-07:00"></OriginalVersion>
+</Created>
+<InfoSequence>
+<Ref ID="Info0" Selected="1"></Ref>
+</InfoSequence>
+<Info ID="Info0">
+<Title>Project info 1</Title>
+<Notes>
+</Notes>
+<Constant><Name>Experiment Date</Name><Value>2018-09-02</Value></Constant>
+<Constant><Name>Experiment ID</Name><Value></Value></Constant>
+<Constant><Name>Notebook ID</Name><Value></Value></Constant>
+<Constant><Name>Project</Name><Value></Value></Constant>
+<Constant><Name>Experimenter</Name><Value></Value></Constant>
+<Constant><Name>Protocol</Name><Value></Value></Constant>
+</Info>
+
+<TableSequence Selected="1">
+
+<Ref ID="Table0" Selected="1"></Ref>
+</TableSequence>
+<Table ID="Table0" XFormat="numbers" YFormat="replicates" Replicates="3" TableType="XY" EVFormat="AsteriskAfterNumber">
+<Title>Exponential decay</Title>
+<FloatingNote ID="Sticky0" Color="Yellow" Left="399" Top="127" Width="546" Height="321">
+<WebLink Flags="0" ToolTip="@help:reg_exponential_decay" URL="@help:REG_Exponential_decay_1phase">
+Step by step instructions for fitting exponential decay data
+</WebLink>
+
+<B><Font Size="9" Face="Verdana">
+How the data are arranged
+</Font></B>
+<Font Size="9" Face="Verdana">
+<BR></BR>The X column records time. The response at each time point is entered in triplicate for Control and  Treated conditions. Some cells are blank to denote missing data.
+</Font>
+<B><Font Size="9" Face="Verdana">
+<BR></BR><BR></BR>The goal
+</Font></B>
+<Font Size="9" Face="Verdana">
+<BR></BR>To fit an exponential decay curve to determine the rate constant of decay (and also the starting and plateau Y values).
+</Font>
+<B><Font Size="9" Face="Verdana">
+<BR></BR><BR></BR>To fit an exponential decay curve
+</Font></B>
+<Font Size="9" Face="Verdana">
+<BR></BR>1. Click Analyze.<BR></BR>2. Choose nonlinear regression from the list of analyses for XY data.<BR></BR>3. Open the exponential panel of equations<BR></BR>4. Choose  &quot;One phase exponential decay&quot;. <BR></BR><BR></BR>Click below to learn more about fitting exponential data.
+</Font>
+</FloatingNote>
+
+<XColumn Width="103" Decimals="1" Subcolumns="1">
+<Title>Minutes</Title>
+<Subcolumn>
+<d>1.0</d>
+<d>2.0</d>
+<d>3.0</d>
+<d>4.0</d>
+<d>5.0</d>
+<d>6.0</d>
+<d>8.0</d>
+<d>10.0</d>
+<d>14.0</d>
+<d>20.0</d>
+<d>25.0</d>
+<d>30.0</d>
+<d>50.0</d>
+</Subcolumn>
+</XColumn>
+<YColumn Width="269" Decimals="0" Subcolumns="3">
+<Title>Control</Title>
+<Subcolumn>
+<d>8887.</d>
+<d>8329.</d>
+<d>7907.</d>
+<d>7413.</d>
+<d>7081.</d>
+<d>6249.</d>
+<d>5442.</d>
+<d>4020.</d>
+<d>4559.</d>
+<d>3033.</d>
+<d>2105.</d>
+<d>1005.</d>
+<d>820.</d>
+</Subcolumn>
+<Subcolumn>
+<d>7366.</d>
+<d></d>
+<d>8810.</d>
+<d>8481.</d>
+<d>7178.</d>
+<d>6492.</d>
+<d>6172.</d>
+<d>3758.</d>
+<d>3146.</d>
+<d>1587.</d>
+<d>1707.</d>
+<d>2156.</d>
+<d>1513.</d>
+</Subcolumn>
+<Subcolumn>
+<d>9612.</d>
+<d>8850.</d>
+<d>8669.</d>
+<d>6489.</d>
+<d>5716.</d>
+<d></d>
+<d>6409.</d>
+<d>4138.</d>
+<d>2547.</d>
+<d>2754.</d>
+<d>2152.</d>
+<d>1185.</d>
+<d>1591.</d>
+</Subcolumn>
+</YColumn>
+<YColumn Width="269" Decimals="0" Subcolumns="3">
+<Title>Treated</Title>
+<Subcolumn>
+<d>6532.</d>
+<d>5352.</d>
+<d>5177.</d>
+<d>3608.</d>
+<d>2559.</d>
+<d>1671.</d>
+<d>2264.</d>
+<d>1905.</d>
+<d>2994.</d>
+<d>1444.</d>
+<d>281.</d>
+<d>1103.</d>
+<d>1918.</d>
+</Subcolumn>
+<Subcolumn>
+<d>7905.</d>
+<d>5841.</d>
+<d>4082.</d>
+<d></d>
+<d>3697.</d>
+<d>3053.</d>
+<d>1658.</d>
+<d>1302.</d>
+<d>1338.</d>
+<d></d>
+<d>484.</d>
+<d>1517.</d>
+<d>1128.</d>
+</Subcolumn>
+<Subcolumn>
+<d>7907.</d>
+<d>6277.</d>
+<d>3157.</d>
+<d>4226.</d>
+<d>2816.</d>
+<d>2891.</d>
+<d>1879.</d>
+<d>1406.</d>
+<d>739.</d>
+<d>760.</d>
+<d>765.</d>
+<d>833.</d>
+<d>1293.</d>
+</Subcolumn>
+</YColumn>
+</Table>
+
+<!--Analyses, graphs and layouts as compressed binary. Don&apos;t edit this part of the file.-->
+
+<Template dt:dt="bin.base64" xmlns:dt="urn:schemas-microsoft-com:datatypes">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
+7Grm7Q==
+</Template></GraphPadPrismFile>
