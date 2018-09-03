@@ -1,10 +1,10 @@
 ---
-title: "Reading Prism GraphPad files into R"
+title: "Reading Prism GraphPad Files into R"
 author: "Yue Jiang"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Reading Prism GraphPad files into R}
+  %\VignetteIndexEntry{Reading Prism GraphPad Files into R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
