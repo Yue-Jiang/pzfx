@@ -21,6 +21,6 @@ Parse one subcolumn
 }
 \examples{
 \dontrun{
-read_col(col_list)
+read_subcol(subcol)
 }
 }

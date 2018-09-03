@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' read_col(col_list)
+#' read_subcol(subcol)
 #' }
 read_subcol <- function(subcol, strike_action="exclude") {
   strike_action <- tolower(strike_action)
