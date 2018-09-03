@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/Yue-Jiang/pzfx.svg?branch=master)](https://travis-ci.org/Yue-Jiang/pzfx)
+[![codecov](https://codecov.io/gh/Yue-Jiang/pzfx/branch/master/graph/badge.svg)](https://codecov.io/gh/Yue-Jiang/pzfx)
 
 # pzfx <img src="man/figures/logo.png" width="100" align="right" />
-Read Prism Graphpad `.pzfx` files into R. It tries to understand different `.pzfx` table formats, e.g. replicates as subcolumns, or mean-sd-n as subcolumns etc and adds proper suffix to column names of the parsed output.
+Read Prism GraphPad `.pzfx` files into R. It tries to understand different `.pzfx` table formats, e.g. replicates as subcolumns, or mean-sd-n as subcolumns etc and adds proper suffix to column names of the parsed output.
 
 # Installation
 ```
