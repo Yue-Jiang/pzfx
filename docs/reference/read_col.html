@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse one column — read_col • pzfx</title>
+<title>Parse one column from a table in a .pzfx file — read_col • pzfx</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Parse one column — read_col" />
+<meta property="og:title" content="Parse one column from a table in a .pzfx file — read_col" />
 
-<meta property="og:description" content="Parse one column" />
+<meta property="og:description" content="Parse one column from a table in a .pzfx file" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -81,6 +81,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -102,14 +105,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse one column</h1>
+    <h1>Parse one column from a table in a .pzfx file</h1>
     <small class="dont-index">Source: <a href='https://github.com/Yue-Jiang/pzfx/blob/master/R/read_col.R'><code>R/read_col.R</code></a></small>
     <div class="hidden name"><code>read_col.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Parse one column</p>
+    <p>Parse one column from a table in a .pzfx file</p>
     
     </div>
 
@@ -120,17 +123,17 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>col</th>
-      <td><p>A list converted from the XML that corresponds to one column in a pzfx file.</p></td>
+      <td><p>A list converted from the XML that corresponds to one column in a .pzfx file.</p></td>
     </tr>
     <tr>
       <th>strike_action</th>
-      <td><p>One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+      <td><p>One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>A character string reflecting the XFormat or YFormat attribute of a pzfx table.</p></td>
+      <td><p>A character string reflecting the "XFormat" or "YFormat" attribute of a .pzfx table.</p></td>
     </tr>
     <tr>
       <th>col_name</th>

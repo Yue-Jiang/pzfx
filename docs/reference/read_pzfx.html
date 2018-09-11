@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read pzfx files — read_pzfx • pzfx</title>
+<title>Read one table from a .pzfx file — read_pzfx • pzfx</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Read pzfx files — read_pzfx" />
+<meta property="og:title" content="Read one table from a .pzfx file — read_pzfx" />
 
-<meta property="og:description" content="Read pzfx files" />
+<meta property="og:description" content="Read one table from a .pzfx file" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -81,6 +81,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -102,14 +105,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read pzfx files</h1>
+    <h1>Read one table from a .pzfx file</h1>
     <small class="dont-index">Source: <a href='https://github.com/Yue-Jiang/pzfx/blob/master/R/read_pzfx.R'><code>R/read_pzfx.R</code></a></small>
     <div class="hidden name"><code>read_pzfx.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read pzfx files</p>
+    <p>Read one table from a .pzfx file</p>
     
     </div>
 
@@ -120,7 +123,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the pzfx file.</p></td>
+      <td><p>Path to the .pzfx file.</p></td>
     </tr>
     <tr>
       <th>table</th>
@@ -130,8 +133,8 @@ table, defaults to the first table.</p></td>
     </tr>
     <tr>
       <th>strike_action</th>
-      <td><p>One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+      <td><p>One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.</p></td>
     </tr>
     </table>
