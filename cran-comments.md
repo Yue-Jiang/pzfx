@@ -12,6 +12,13 @@ There was 1 NOTE:
 Maintainer: 'Yue Jiang <rivehill@gmail.com>'
 
   I am the maintainer and this is correct.
+  
+There were two flagged spelling issues in read_col.Rd:
+
+* "XFormat"
+* "YFormat"
+
+  These are inherited from GraphPad Prism and are spelled correctly.
 
 ## Downstream dependencies
 This is a new package and there are no downstream dependencies at this time.

@@ -1,10 +1,10 @@
-#' Parse one subcolumn
+#' Parse one sub-column from a column of a table in a .pzfx file
 #'
-#' @param subcol A list converted from the XML that corresponds to one subcolumn in a pzfx file.
-#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-#' values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+#' @param subcol A list converted from the XML that corresponds to one sub-column in a .pzfx file.
+#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+#' values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 #' "*" is added, the column will be of type character.
-#' @return a vector of values in the subcolumn
+#' @return a vector of values in the sub-column
 #'
 #' @examples
 #' \dontrun{

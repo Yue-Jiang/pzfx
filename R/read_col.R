@@ -1,10 +1,10 @@
-#' Parse one column
+#' Parse one column from a table in a .pzfx file
 #'
-#' @param col A list converted from the XML that corresponds to one column in a pzfx file.
-#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-#'   values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+#' @param col A list converted from the XML that corresponds to one column in a .pzfx file.
+#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+#'   values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 #'   "*" is added, the column will be of type character.
-#' @param format A character string reflecting the XFormat or YFormat attribute of a pzfx table.
+#' @param format A character string reflecting the "XFormat" or "YFormat" attribute of a .pzfx table.
 #' @param col_name A character string for default base column name. Will be disregarded if column
 #'   has title.
 #'
