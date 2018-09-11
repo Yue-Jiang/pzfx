@@ -2,22 +2,22 @@
 % Please edit documentation in R/read_subcol.R
 \name{read_subcol}
 \alias{read_subcol}
-\title{Parse one subcolumn}
+\title{Parse one sub-column from a column of a table in a .pzfx file}
 \usage{
 read_subcol(subcol, strike_action = "exclude")
 }
 \arguments{
-\item{subcol}{A list converted from the XML that corresponds to one subcolumn in a pzfx file.}
+\item{subcol}{A list converted from the XML that corresponds to one sub-column in a .pzfx file.}
 
-\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.}
 }
 \value{
-a vector of values in the subcolumn
+a vector of values in the sub-column
 }
 \description{
-Parse one subcolumn
+Parse one sub-column from a column of a table in a .pzfx file
 }
 \examples{
 \dontrun{

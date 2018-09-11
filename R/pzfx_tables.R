@@ -1,8 +1,8 @@
-#' List all tables in a prism graphpad pzfx file.
+#' List all tables in a GraphPad Prism .pzfx file.
 #'
-#' List all tables in a prism graphpad pzfx file.
+#' List all tables in a GraphPad Prism .pzfx file.
 #'
-#' @param path Path to the pzfx file
+#' @param path Path to the .pzfx file
 #'
 #' @return a character string vector
 #'

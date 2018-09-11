@@ -1,11 +1,11 @@
-#' Read pzfx files
+#' Read one table from a .pzfx file
 #'
-#' @param path Path to the pzfx file.
+#' @param path Path to the .pzfx file.
 #' @param table Table to read. Either a string (the name of a table), or an
 #'   integer (the position of the table). If neither argument specifies the
 #'   table, defaults to the first table.
-#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-#'   values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+#' @param strike_action One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+#'   values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 #'   "*" is added, the column will be of type character.
 #'
 #' @return a data frame

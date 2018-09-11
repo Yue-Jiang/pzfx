@@ -2,18 +2,18 @@
 % Please edit documentation in R/read_col.R
 \name{read_col}
 \alias{read_col}
-\title{Parse one column}
+\title{Parse one column from a table in a .pzfx file}
 \usage{
 read_col(col, strike_action = "exclude", format = "", col_name = "")
 }
 \arguments{
-\item{col}{A list converted from the XML that corresponds to one column in a pzfx file.}
+\item{col}{A list converted from the XML that corresponds to one column in a .pzfx file.}
 
-\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.}
 
-\item{format}{A character string reflecting the XFormat or YFormat attribute of a pzfx table.}
+\item{format}{A character string reflecting the "XFormat" or "YFormat" attribute of a .pzfx table.}
 
 \item{col_name}{A character string for default base column name. Will be disregarded if column
 has title.}
@@ -22,7 +22,7 @@ has title.}
 a data frame with parsed column data..
 }
 \description{
-Parse one column
+Parse one column from a table in a .pzfx file
 }
 \examples{
 \dontrun{

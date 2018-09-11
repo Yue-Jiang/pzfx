@@ -2,26 +2,26 @@
 % Please edit documentation in R/read_pzfx.R
 \name{read_pzfx}
 \alias{read_pzfx}
-\title{Read pzfx files}
+\title{Read one table from a .pzfx file}
 \usage{
 read_pzfx(path, table = 1, strike_action = "exclude")
 }
 \arguments{
-\item{path}{Path to the pzfx file.}
+\item{path}{Path to the .pzfx file.}
 
 \item{table}{Table to read. Either a string (the name of a table), or an
 integer (the position of the table). If neither argument specifies the
 table, defaults to the first table.}
 
-\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should striked
-values in the original pzfx be excluded, kept or labeled with a trailing "*". If a trailing
+\item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
+values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.}
 }
 \value{
 a data frame
 }
 \description{
-Read pzfx files
+Read one table from a .pzfx file
 }
 \examples{
 \dontrun{

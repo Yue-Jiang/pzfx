@@ -2,18 +2,18 @@
 % Please edit documentation in R/pzfx_tables.R
 \name{pzfx_tables}
 \alias{pzfx_tables}
-\title{List all tables in a prism graphpad pzfx file.}
+\title{List all tables in a GraphPad Prism .pzfx file.}
 \usage{
 pzfx_tables(path)
 }
 \arguments{
-\item{path}{Path to the pzfx file}
+\item{path}{Path to the .pzfx file}
 }
 \value{
 a character string vector
 }
 \description{
-List all tables in a prism graphpad pzfx file.
+List all tables in a GraphPad Prism .pzfx file.
 }
 \examples{
 \dontrun{
