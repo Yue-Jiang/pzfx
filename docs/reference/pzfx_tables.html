@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List all tables in a GraphPad Prism .pzfx file. — pzfx_tables • pzfx</title>
+<title>List all tables in a 'GraphPad Prism' '.pzfx' file. — pzfx_tables • pzfx</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="List all tables in a GraphPad Prism .pzfx file. — pzfx_tables" />
+<meta property="og:title" content="List all tables in a 'GraphPad Prism' '.pzfx' file. — pzfx_tables" />
 
-<meta property="og:description" content="List all tables in a GraphPad Prism .pzfx file." />
+<meta property="og:description" content="List all tables in a 'GraphPad Prism' '.pzfx' file." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -105,14 +105,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List all tables in a GraphPad Prism .pzfx file.</h1>
+    <h1>List all tables in a 'GraphPad Prism' '.pzfx' file.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Yue-Jiang/pzfx/blob/master/R/pzfx_tables.R'><code>R/pzfx_tables.R</code></a></small>
     <div class="hidden name"><code>pzfx_tables.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>List all tables in a GraphPad Prism .pzfx file.</p>
+    <p>List all tables in a 'GraphPad Prism' '.pzfx' file.</p>
     
     </div>
 
@@ -123,7 +123,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the .pzfx file</p></td>
+      <td><p>Path to the '.pzfx' file</p></td>
     </tr>
     </table>
     
@@ -133,10 +133,8 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>pzfx_tables</span>(<span class='no'>path</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>pzfx_file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/exponential_decay.pzfx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"pzfx"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>pzfx_tables</span>(<span class='no'>pzfx_file</span>)</div><div class='output co'>#&gt; [1] "Exponential decay"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -14,6 +14,9 @@
 #' \dontrun{
 #' read_col(col_list)
 #' }
+#'
+#' @keywords internal
+#' @noRd
 read_col <- function(col, strike_action="exclude", format="", col_name="") {
   if ("Title" %in% names(col)) {
     col_name <- paste(unlist(col[["Title"]]), collapse="")

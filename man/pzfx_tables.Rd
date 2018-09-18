@@ -2,22 +2,20 @@
 % Please edit documentation in R/pzfx_tables.R
 \name{pzfx_tables}
 \alias{pzfx_tables}
-\title{List all tables in a GraphPad Prism .pzfx file.}
+\title{List all tables in a 'GraphPad Prism' '.pzfx' file.}
 \usage{
 pzfx_tables(path)
 }
 \arguments{
-\item{path}{Path to the .pzfx file}
+\item{path}{Path to the '.pzfx' file}
 }
 \value{
 a character string vector
 }
 \description{
-List all tables in a GraphPad Prism .pzfx file.
+List all tables in a 'GraphPad Prism' '.pzfx' file.
 }
 \examples{
-\dontrun{
-pzfx_tables(path)
-}
-
+pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
+pzfx_tables(pzfx_file)
 }

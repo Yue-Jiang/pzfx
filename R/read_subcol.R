@@ -10,6 +10,9 @@
 #' \dontrun{
 #' read_subcol(subcol)
 #' }
+#'
+#' @keywords internal
+#' @noRd
 read_subcol <- function(subcol, strike_action="exclude") {
   strike_action <- tolower(strike_action)
   if (!strike_action %in% c("exclude", "keep", "star", "e", "k", "s")) {

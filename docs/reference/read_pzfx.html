@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read one table from a .pzfx file — read_pzfx • pzfx</title>
+<title>Read one table from a 'GraphPad Prism' '.pzfx' file — read_pzfx • pzfx</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Read one table from a .pzfx file — read_pzfx" />
+<meta property="og:title" content="Read one table from a 'GraphPad Prism' '.pzfx' file — read_pzfx" />
 
-<meta property="og:description" content="Read one table from a .pzfx file" />
+<meta property="og:description" content="Read one table from a 'GraphPad Prism' '.pzfx' file" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -105,14 +105,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read one table from a .pzfx file</h1>
+    <h1>Read one table from a 'GraphPad Prism' '.pzfx' file</h1>
     <small class="dont-index">Source: <a href='https://github.com/Yue-Jiang/pzfx/blob/master/R/read_pzfx.R'><code>R/read_pzfx.R</code></a></small>
     <div class="hidden name"><code>read_pzfx.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read one table from a .pzfx file</p>
+    <p>Read one table from a 'GraphPad Prism' '.pzfx' file</p>
     
     </div>
 
@@ -123,7 +123,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the .pzfx file.</p></td>
+      <td><p>Path to the '.pzfx' file.</p></td>
     </tr>
     <tr>
       <th>table</th>
@@ -145,10 +145,21 @@ values in the original .pzfx be excluded, kept or labeled with a trailing "*". I
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>read_pzfx</span>(<span class='no'>path</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>pzfx_file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/exponential_decay.pzfx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"pzfx"</span>, <span class='kw'>mustWork</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>read_pzfx</span>(<span class='no'>pzfx_file</span>, <span class='kw'>table</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>strike_action</span><span class='kw'>=</span><span class='st'>"exclude"</span>)</div><div class='output co'>#&gt;    Minutes Control_1 Control_2 Control_3 Treated_1 Treated_2 Treated_3
+#&gt; 1        1      8887      7366      9612      6532      7905      7907
+#&gt; 2        2      8329        NA      8850      5352      5841      6277
+#&gt; 3        3      7907      8810      8669      5177      4082      3157
+#&gt; 4        4      7413      8481      6489      3608        NA      4226
+#&gt; 5        5      7081      7178      5716      2559      3697      2816
+#&gt; 6        6      6249      6492        NA      1671      3053      2891
+#&gt; 7        8      5442      6172      6409      2264      1658      1879
+#&gt; 8       10      4020      3758      4138      1905      1302      1406
+#&gt; 9       14      4559      3146      2547      2994      1338       739
+#&gt; 10      20      3033      1587      2754      1444        NA       760
+#&gt; 11      25      2105      1707      2152       281       484       765
+#&gt; 12      30      1005      2156      1185      1103      1517       833
+#&gt; 13      50       820      1513      1591      1918      1128      1293</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

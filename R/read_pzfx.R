@@ -1,6 +1,8 @@
-#' Read one table from a .pzfx file
+#' Read one table from a 'GraphPad Prism' '.pzfx' file
 #'
-#' @param path Path to the .pzfx file.
+#' Read one table from a 'GraphPad Prism' '.pzfx' file
+#'
+#' @param path Path to the '.pzfx' file.
 #' @param table Table to read. Either a string (the name of a table), or an
 #'   integer (the position of the table). If neither argument specifies the
 #'   table, defaults to the first table.
@@ -10,12 +12,11 @@
 #'
 #' @return a data frame
 #'
-#' @examples
-#' \dontrun{
-#' read_pzfx(path, table = 1)
-#' }
-#'
 #' @export
+#'
+#' @examples
+#' pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
+#' read_pzfx(pzfx_file, table = 1, strike_action="exclude")
 read_pzfx <- function(path, table=1, strike_action="exclude") {
   # sanity check
   table_names <- pzfx::pzfx_tables(path)

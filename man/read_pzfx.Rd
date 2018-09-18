@@ -2,12 +2,12 @@
 % Please edit documentation in R/read_pzfx.R
 \name{read_pzfx}
 \alias{read_pzfx}
-\title{Read one table from a .pzfx file}
+\title{Read one table from a 'GraphPad Prism' '.pzfx' file}
 \usage{
 read_pzfx(path, table = 1, strike_action = "exclude")
 }
 \arguments{
-\item{path}{Path to the .pzfx file.}
+\item{path}{Path to the '.pzfx' file.}
 
 \item{table}{Table to read. Either a string (the name of a table), or an
 integer (the position of the table). If neither argument specifies the
@@ -21,11 +21,9 @@ values in the original .pzfx be excluded, kept or labeled with a trailing "*". I
 a data frame
 }
 \description{
-Read one table from a .pzfx file
+Read one table from a 'GraphPad Prism' '.pzfx' file
 }
 \examples{
-\dontrun{
-read_pzfx(path, table = 1)
-}
-
+pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
+read_pzfx(pzfx_file, table = 1, strike_action="exclude")
 }
