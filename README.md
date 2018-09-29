@@ -6,6 +6,9 @@ Read GraphPad Prism `.pzfx` files into R. It tries to understand different `.pzf
 
 # Installation
 ```
+# Install from CRAN
+install.packages("pzfx")
+
 # Install development version from GitHub
 devtools::install_github("Yue-Jiang/pzfx")
 ```
