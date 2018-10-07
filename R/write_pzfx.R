@@ -28,14 +28,14 @@ write_pzfx <- function(x, path, row_names=TRUE, x_col=NA) {
     x_lst <- x
     if (is.null(names(x_lst))) names(x_lst) <- paste("Data", seq_len(length(x_lst)))
     are_dfs <- sapply(x_lst, function(x) inherits(x, c("data.frame", "matrix")))
-    if (any(!are_dfs)) stop(sprintf("These elements are not data frame: %s",
+    if (any(!are_dfs)) stop(sprintf("These elements are not data frame or matrix: %s",
                                     paste(names(x_lst)[!are_dfs], collapse=", ")))
   } else {
     stop(sprintf("Cannot process x of class %s", paste(class(x), collapse=", ")))
   }
   # make sure all elements are numeric
   are_nums <- sapply(x_lst, function(x) all(sapply(x, is.numeric)))
-  if (any(!are_nums)) stop(sprintf("These elements are not all numeric: %s",
+  if (any(!are_nums)) stop(sprintf("These tables are not all numeric: %s",
                                    paste(names(x_lst)[!are_nums], collapse=", ")))
   # make sure row_names matches the length of x_lst
   if (length(row_names) == 1) row_names <- rep(row_names, length(x_lst))
@@ -72,6 +72,7 @@ write_pzfx <- function(x, path, row_names=TRUE, x_col=NA) {
         x_col[i] <- idx
       }
     }
+    x_col <- as.integer(x_col)
   }
 
   lst <- base_lst()
