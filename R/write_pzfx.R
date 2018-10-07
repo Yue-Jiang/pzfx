@@ -44,8 +44,8 @@ write_pzfx <- function(x, path, row_names=TRUE) {
   lst$GraphPadPrismFile$TableSequence <- table_seq_lst(x_lst)
   lst$GraphPadPrismFile <- append(lst$GraphPadPrismFile, table_lst(x_lst, row_names))
   attr(lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
-  xml <- as_xml_document(lst)
-  write_xml(xml, path)
+  xml <- xml2::as_xml_document(lst)
+  xml2::write_xml(xml, path)
   invisible(x)
 }
 
