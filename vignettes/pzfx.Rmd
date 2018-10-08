@@ -1,10 +1,10 @@
 ---
-title: "Reading Prism GraphPad Files into R"
+title: "Reading 'GraphPad Prism' files into R"
 author: "Yue Jiang"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Reading Prism GraphPad Files into R}
+  %\VignetteIndexEntry{Reading Prism GraphPad files into R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,10 +17,12 @@ knitr::opts_chunk$set(
 ```
 
 # Background
-Prism GraphPad is a software application for scientific graphing, curve fitting and statistical testing. It has been popular among scientists, especially experimental biologists. The `pzfx` R package provides an easy way to read data tables that are in Prism GraphPad format (`.pzfx` files) into R. Since Prism5 (the current version as of mid 2018 is Prism7), Prism stores its data tables in `XML` format and is possible to be parsed into `data.frame`s in R. The `pzfx` package contains functions to list and load Prism tables into R, through parsing the `XML` by the package `xml2`.
+GraphPad Prism is a software application for scientific graphing, curve fitting and statistical testing. It has been popular among scientists, especially experimental biologists. The `pzfx` R package provides an easy way to read data tables that are in GraphPad Prism format (`.pzfx` files) into R and vise versa. Since Prism5 (the current version as of mid 2018 is Prism7), Prism stores its data tables in `XML` format and is possible to be parsed in R. The `pzfx` package manipulates GraphPad Prism `XML` files through functions provided by `xml2`.
 
 # Main functionality
-There are only two main functions in the package. `pzfx_tables` lists the tables in a `.pzfx` file. `read_pzfx` reads one table into R from a `.pzfx` file.
+
+## Reading
+There are two main functions for reading. `pzfx_tables` lists the tables in a `.pzfx` file. `read_pzfx` reads one table into R from a `.pzfx` file.
 
 We use a Prism example file `exponential_decay.pzfx` to show how these two functions work. Here is the screen shot of this file when opened in Prism. ![data](../inst/extdata/exponential_decay.png){width=100%}
 
@@ -45,6 +47,18 @@ df <- read_pzfx(system.file("extdata/exponential_decay.pzfx", package="pzfx"), t
 head(df)
 ```
 
+## Writing
+
+There is a `write_pzfx` function for writing. It takes as input a data frame or a matrix, or a named list of data frames or matrices, and writes to a `.pzfx` file. To keep row names and use them as row titles in `.pzfx`, specify argument `row_names=TRUE`. To specify a column (column 1, "Col1" for example) to be used as the "X" column, specify argument `x_col=1` or `x_col="Col1"`.
+
+```{r}
+tmp <- tempfile(fileext=".pzfx")
+write_pzfx(df, tmp, row_names=FALSE, x_col="Minutes")
+out_df <- read_pzfx(tmp, table=1)
+head(out_df)
+unlink(tmp)
+```
+
 # Additional notes
 - Prism allows subcolumns. To accommodate this, `read_pzfx` automatically adds `_1`, `_2` etc to the original column name to account for sub columns if they represent replicates. It tries to infer the subcolumn types and adds appropriate suffix accordingly. For example, trailing `_MEAN`, `_SD`, `_N` are added if subcolumns represent mean, standard deviation and number of observations.
 
@@ -54,29 +68,4 @@ head(df)
 
 - Prism allows special formating of column names such as superscripts. When reading into R, column names with special formating are converted to regular strings.
 
-```{r, include=FALSE, eval=FALSE}
-# generates a hex sticker
-library(hexSticker)
-sticker(
-  expression({
-    plot(c(0, 1), c(0, sin(pi / 3)), type="n", axes=F, xlab="", ylab="")
-    segments(x0=0, y0=0, x1=0.5, y1=sin(pi / 3), col="white", lwd=3)
-    segments(x0=1, y0=0, x1=0.5, y1=sin(pi / 3), col="white", lwd=3)
-    segments(x0=0, y0=0, x1=1, y1=0, col="white", lwd=3)
-    segments(x0=0, y0=0, x1=0.5, y1=0.5 * tan(pi / 6), col="white", lwd=3)
-    segments(x0=0.5, y0=sin(pi / 3), x1=0.5, y1=0.5 * tan(pi / 6), col="white", lwd=3)
-    segments(x0=0.5, y0=0.5 * tan(pi / 6), x1=1, y1=0, col="white", lwd=3)
-  }),
-  package="pzfx",
-  p_size=8,
-  p_y=1.6,
-  s_x=0.75,
-  s_y=0.7,
-  s_width=1.7,
-  s_height=1.7,
-  h_fill="#ff692b",
-  h_color="#ff4a00",
-  url="https://yue-jiang.github.io/pzfx/",
-  u_color="white",
-  filename="man/figures/logo.png")
-```
+- For writing, because R data frames and matrices don't support hierachical columns, the written out `.pzfx` files can only be of type "Column" or "XY", depending on whether the "X" column is specified by `x_col`.
