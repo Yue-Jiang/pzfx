@@ -11,9 +11,9 @@ write_pzfx(x, path, row_names = TRUE, x_col = NA)
 
 \item{path}{Path to the output '.pzfx' file.}
 
-\item{row_names}{Logical. If row names of the input table be preserved and become row titles in
-the output '.pzfx' file. If the length is greater than 1, it must match the length of list of
-input tables. Default: TRUE.}
+\item{row_names}{Logical. If row names of the input table should be preserved and become row
+titles in the output '.pzfx' file. If the length is greater than 1, it must match the length of
+list of input tables. Default: TRUE.}
 
 \item{x_col}{1-based column index or name of the column to be used as the 'X' column. If the
 length is greater than 1, it must match the length of list of input tables. All other columns
@@ -24,7 +24,7 @@ write_pzfx returns the input x invisibly.
 }
 \description{
 Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file. A table can be a 'matrix',
-  a 'data.frame', or a 'tibble'. All elements of the table be numeric.
+  a 'data.frame', or a 'tibble'. All elements of the table should be numeric.
 }
 \examples{
 pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)

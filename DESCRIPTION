@@ -1,6 +1,6 @@
 Package: pzfx
 Type: Package
-Title: Read 'GraphPad Prism' Files
+Title: Read and Write 'GraphPad Prism' Files
 Version: 0.1.0
 Authors@R: c(
     person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517"))

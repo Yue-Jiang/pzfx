@@ -1,5 +1,5 @@
 ---
-title: "Reading 'GraphPad Prism' files into R"
+title: "Reading and writing 'GraphPad Prism' files in R"
 author: "Yue Jiang"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

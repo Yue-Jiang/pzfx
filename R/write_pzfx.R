@@ -1,13 +1,13 @@
 #' Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file
 #'
 #' Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file. A table can be a 'matrix',
-#'   a 'data.frame', or a 'tibble'. All elements of the table be numeric.
+#'   a 'data.frame', or a 'tibble'. All elements of the table should be numeric.
 #'
 #' @param x Input table or named list of tables that will be 'Data Tables' in the '.pzfx' file
 #' @param path Path to the output '.pzfx' file.
-#' @param row_names Logical. If row names of the input table be preserved and become row titles in
-#'   the output '.pzfx' file. If the length is greater than 1, it must match the length of list of
-#'   input tables. Default: TRUE.
+#' @param row_names Logical. If row names of the input table should be preserved and become row
+#'   titles in the output '.pzfx' file. If the length is greater than 1, it must match the length of
+#'   list of input tables. Default: TRUE.
 #' @param x_col 1-based column index or name of the column to be used as the 'X' column. If the
 #'   length is greater than 1, it must match the length of list of input tables. All other columns
 #'   in the input tables will be treated as "Y" columns in the output '.pzfx' file. Default: NA
