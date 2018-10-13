@@ -2,3 +2,4 @@
 
 export(pzfx_tables)
 export(read_pzfx)
+export(write_pzfx)

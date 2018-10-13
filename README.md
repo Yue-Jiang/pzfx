@@ -27,3 +27,8 @@ To read a specific table from a `.pzfx` file
 df <- read_pzfx("/path/to/my/pzfx/file", 1) # read first table
 df <- read_pzfx("/path/to/my/pzfx/file", "Table Name") # read table by name
 ```
+
+To write a data frame or matrix to a `.pzfx` file
+```
+write_pzfx(df, "/path/to/my/pzfx/file")
+```

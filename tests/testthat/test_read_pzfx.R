@@ -1,5 +1,4 @@
-context("Read pzfx with different table types")
-library(pzfx)
+context("read_pzfx")
 
 test_that("Test column", {
   pzfx_file <- system.file("testdata/column.pzfx", package="pzfx", mustWork=TRUE)
