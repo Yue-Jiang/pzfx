@@ -13,7 +13,7 @@
 #' pzfx_tables(pzfx_file)
 pzfx_tables <- function(path) {
   xml <- xml2::read_xml(path)
-  table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table']")
+  table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table' or name()='HugeTable']")
   tables <- sapply(table_nodes, function(t) xml2::xml_text(xml2::xml_child(t, ".//*[name()='Title']")))
   return(tables)
 }
