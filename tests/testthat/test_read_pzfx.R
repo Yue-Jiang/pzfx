@@ -132,6 +132,29 @@ test_that("Test parts of whole data", {
   expect_equal(pzfx, expected)
 })
 
+test_that("Test HugeTable", {
+  pzfx_file <- system.file("testdata/column_hugetable.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/column_hugetable.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
+test_that("Test table with empty column", {
+  pzfx_file <- system.file("testdata/column_empty.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/column_empty.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
+test_that("Test empty table", {
+  pzfx_file <- system.file("testdata/empty.pzfx", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- data.frame()
+  expect_equal(pzfx, expected)
+})
+
 test_that("Test columns with different lengths", {
   pzfx_file <- system.file("testdata/column_unequal_lengths.pzfx", package="pzfx", mustWork=TRUE)
   expected_file <- system.file("testdata/column_unequal_lengths.tab", package="pzfx", mustWork=TRUE)

@@ -34,7 +34,7 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
   }
 
   xml <- xml2::read_xml(path)
-  table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table']")
+  table_nodes <- xml2::xml_find_all(xml, ".//*[name()='Table' or name()='HugeTable']")
   this_table <- xml2::as_list(table_nodes[[this_idx]])
   if (!"Title" %in% names(this_table)) stop("Can't work with this pzfx file, is it later than v6.0?")
   if (is.character(table) && table != this_table[["Title"]]) stop("Can't work with this pzfx file, is it later than v6.0?")
@@ -76,11 +76,14 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
       col_lst[[length(col_lst) + 1]] <- this_col
     }
   }
+  if (length(col_lst) == 0) return(data.frame())
 
   max_len <- max(sapply(col_lst, nrow))
   long_col_lst <- lapply(col_lst, function(c) {
     while (nrow(c) < max_len) {
+      col_names <- colnames(c)
       c <- rbind(c, NA)
+      colnames(c) <- col_names
     }
     c
   })
