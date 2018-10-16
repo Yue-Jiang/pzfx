@@ -76,11 +76,14 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
       col_lst[[length(col_lst) + 1]] <- this_col
     }
   }
+  if (length(col_lst) == 0) return(data.frame())
 
   max_len <- max(sapply(col_lst, nrow))
   long_col_lst <- lapply(col_lst, function(c) {
     while (nrow(c) < max_len) {
+      col_names <- colnames(c)
       c <- rbind(c, NA)
+      colnames(c) <- col_names
     }
     c
   })
