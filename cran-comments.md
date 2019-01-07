@@ -1,25 +1,15 @@
 ## Test environments
-* local OS X install, R 3.5.1
-* ubuntu 14.04 (on travis-ci), R 3.5.0
+* local OS X install, R 3.5.2
+* ubuntu 14.04 (on travis-ci, devel and release)
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-There was 1 NOTE:
-
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Yue Jiang <rivehill@gmail.com>'
-
-  I am the maintainer and this is correct.
+There were no ERRORs, WARNINGs or NOTES.
   
-There were three flagged spelling issues:
+There were two flagged spelling issues:
 
-* "GraphPad"
-* "XFormat"
-* "YFormat"
-
-  These are inherited from GraphPad Prism and are spelled correctly.
+* "GraphPad": this is inherited from GraphPad Prism and is spelled correctly.
+* "tibble": this is inherited from the tibble package and is spelled correctly.
 
 ## Downstream dependencies
-This is a new package and there are no downstream dependencies at this time.
+There are no downstream dependencies at this time.
