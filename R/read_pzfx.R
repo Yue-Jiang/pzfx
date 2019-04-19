@@ -51,12 +51,22 @@ read_pzfx <- function(path, table=1, strike_action="exclude") {
   col_lst <- list()
   for (i in seq_len(length(this_table))) {
     if (names(this_table)[i] == "XColumn") {
+      if (x_format == "date" & "XAdvancedColumn" %in% names(this_table)) next
       this_col <- read_col(
         this_table[[i]],
         strike_action=strike_action,
         col_name="X",
         format=x_format)
       if (nrow(this_col) > 0) {
+        col_lst[[length(col_lst) + 1]] <- this_col
+      }
+    } else if (names(this_table)[i] == "XAdvancedColumn" & x_format == "date") {
+      this_col <- read_col(
+        this_table[[i]],
+        strike_action=strike_action,
+        format="")
+      if (nrow(this_col) > 0) {
+        colnames(this_col) <- "X"
         col_lst[[length(col_lst) + 1]] <- this_col
       }
     } else if (names(this_table)[i] == "RowTitlesColumn") {

@@ -140,6 +140,14 @@ test_that("Test HugeTable", {
   expect_equal(pzfx, expected)
 })
 
+test_that("Test Date as X column", {
+  pzfx_file <- system.file("testdata/x_date.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/x_date.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
 test_that("Test table with empty column", {
   pzfx_file <- system.file("testdata/column_empty.pzfx", package="pzfx", mustWork=TRUE)
   expected_file <- system.file("testdata/column_empty.tab", package="pzfx", mustWork=TRUE)
