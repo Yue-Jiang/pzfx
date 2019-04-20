@@ -140,11 +140,27 @@ test_that("Test HugeTable", {
   expect_equal(pzfx, expected)
 })
 
-test_that("Test Date as X column", {
+test_that("Test Date as X column and read as numeric", {
   pzfx_file <- system.file("testdata/x_date.pzfx", package="pzfx", mustWork=TRUE)
-  expected_file <- system.file("testdata/x_date.tab", package="pzfx", mustWork=TRUE)
-  pzfx <- read_pzfx(pzfx_file)
-  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  expected_file <- system.file("testdata/x_date_numeric.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file, date_x="numeric")
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE, check.names=FALSE)
+  expect_equal(pzfx, expected)
+})
+
+test_that("Test Date as X column and read as character", {
+  pzfx_file <- system.file("testdata/x_date.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/x_date_character.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file, date_x="character")
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE, check.names=FALSE)
+  expect_equal(pzfx, expected)
+})
+
+test_that("Test Date as X column and read as numeric and character", {
+  pzfx_file <- system.file("testdata/x_date.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/x_date_both.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file, date_x="both")
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE, check.names=FALSE)
   expect_equal(pzfx, expected)
 })
 

@@ -4,7 +4,8 @@
 \alias{read_pzfx}
 \title{Read one table from a 'GraphPad Prism' '.pzfx' file}
 \usage{
-read_pzfx(path, table = 1, strike_action = "exclude")
+read_pzfx(path, table = 1, strike_action = "exclude",
+  date_x = "character")
 }
 \arguments{
 \item{path}{Path to the '.pzfx' file.}
@@ -16,6 +17,10 @@ table, defaults to the first table.}
 \item{strike_action}{One of c("exclude", "keep", "star") or c("e", "k", "s"). Should stricken
 values in the original .pzfx be excluded, kept or labeled with a trailing "*". If a trailing
 "*" is added, the column will be of type character.}
+
+\item{date_x}{One of c("numeric", "character", "both") or c("n", "c", "b"). Should x column of
+format "Date" be handled as numeric (time elapsed from the first time point), character (the date
+string encoded by Prism, for example "8-Sep-2008"), or both (leading to two columns).}
 }
 \value{
 a data frame
@@ -25,5 +30,5 @@ Read one table from a 'GraphPad Prism' '.pzfx' file
 }
 \examples{
 pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
-read_pzfx(pzfx_file, table = 1, strike_action="exclude")
+read_pzfx(pzfx_file, table = 1, strike_action="exclude", date_x="character")
 }
