@@ -32,3 +32,8 @@ To write a data frame or matrix to a `.pzfx` file
 ```
 write_pzfx(df, "/path/to/my/pzfx/file")
 ```
+
+To write a list of data frames or matrices to a `.pzfx` file
+```
+write_pzfx(list("Table Name 1" = df1, "Table Name 2" = df2), "/path/to/my/pzfx/file")
+```
