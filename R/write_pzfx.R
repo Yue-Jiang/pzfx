@@ -35,8 +35,14 @@ write_pzfx <- function(x, path, row_names=TRUE, x_col=NA) {
   }
   # make sure all elements are numeric
   are_nums <- sapply(x_lst, function(x) all(sapply(x, is.numeric)))
-  if (any(!are_nums)) stop(sprintf("These tables are not all numeric: %s",
-                                   paste(names(x_lst)[!are_nums], collapse=", ")))
+  if (any(!are_nums)) {
+    stop(paste0("These tables are not all numeric: ",
+                paste(names(x_lst)[!are_nums], collapse=", "),
+                ". Such tables are not supported by Prism GraphPad. ",
+                "You may want to spread / pivot the input data by non-numeric columns into a 'wide' format, ",
+                "where the table elements are all numeric."
+    ))
+  }
   # make sure row_names matches the length of x_lst
   if (length(row_names) == 1) row_names <- rep(row_names, length(x_lst))
   if (length(row_names) != length(x_lst)) {
