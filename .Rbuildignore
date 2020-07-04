@@ -5,3 +5,4 @@
 ^LICENSE\.md$
 ^docs$
 ^cran-comments\.md$
+^pkgdown$

@@ -4,8 +4,7 @@
 \alias{read_pzfx}
 \title{Read one table from a 'GraphPad Prism' '.pzfx' file}
 \usage{
-read_pzfx(path, table = 1, strike_action = "exclude",
-  date_x = "character")
+read_pzfx(path, table = 1, strike_action = "exclude", date_x = "character")
 }
 \arguments{
 \item{path}{Path to the '.pzfx' file.}
