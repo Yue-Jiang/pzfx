@@ -187,6 +187,14 @@ test_that("Test columns with different lengths", {
   expect_equal(pzfx, expected)
 })
 
+test_that("Test column with comma as decimal separator", {
+  pzfx_file <- system.file("testdata/comma_decimal.pzfx", package="pzfx", mustWork=TRUE)
+  expected_file <- system.file("testdata/comma_decimal.tab", package="pzfx", mustWork=TRUE)
+  pzfx <- read_pzfx(pzfx_file)
+  expected <- read.table(expected_file, sep="\t", header=TRUE, stringsAsFactors=FALSE)
+  expect_equal(pzfx, expected)
+})
+
 test_that("Should raise when table is absent", {
   pzfx_file <- system.file("testdata/parts_of_whole.pzfx", package="pzfx", mustWork=TRUE)
   expect_error(read_pzfx(pzfx_file, "WrongTab"), "Can't find WrongTab in prism file")
