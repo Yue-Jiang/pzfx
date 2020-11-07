@@ -36,6 +36,8 @@ read_subcol <- function(subcol, strike_action="exclude") {
     vals[i] <- val
   }
   if (!strike_action %in% c("star", "s")) {
+    # In some parts of the world, a comma is used as the decimal separator
+    vals <- gsub(",", ".", vals)
     suppressWarnings(new_vals <- as.numeric(vals))
     if (all(is.na(new_vals) == is.na(vals))) vals <- new_vals
   }
