@@ -107,7 +107,7 @@ read_pzfx <- function(path, table=1, strike_action="exclude", date_x="character"
   long_col_lst <- lapply(col_lst, function(c) {
     while (nrow(c) < max_len) {
       col_names <- colnames(c)
-      c <- rbind(c, NA)
+      c <- rbind(c, rep(NA, times = ncol(c)))
       colnames(c) <- col_names
     }
     c
