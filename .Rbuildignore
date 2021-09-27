@@ -1,8 +1,8 @@
 ^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
 ^LICENSE\.md$
 ^docs$
 ^cran-comments\.md$
 ^pkgdown$
+^\.github$
