@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Yue-Jiang/pzfx.svg?branch=master)](https://travis-ci.org/Yue-Jiang/pzfx)
+[![R-CMD-check](https://github.com/Yue-Jiang/pzfx/workflows/R-CMD-check/badge.svg)](https://github.com/Yue-Jiang/pzfx/actions)
 [![codecov](https://codecov.io/gh/Yue-Jiang/pzfx/branch/master/graph/badge.svg)](https://codecov.io/gh/Yue-Jiang/pzfx)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/pzfx)](https://cran.r-project.org/package=pzfx)
 
