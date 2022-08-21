@@ -11,6 +11,9 @@
 #' @param x_col 1-based column index or name of the column to be used as the 'X' column. If the
 #'   length is greater than 1, it must match the length of list of input tables. All other columns
 #'   in the input tables will be treated as "Y" columns in the output '.pzfx' file. Default: NA
+#' @param n_digits An integer specifying the number of digits to display for float values in the
+#'   generated '.pzfx' file. This argument has no effect if data is of type 'integer'. Note this
+#'   argument only affects how many digits are displayed. The actual data does not change.
 #'
 #' @return write_pzfx returns the input x invisibly.
 #'
@@ -20,7 +23,7 @@
 #' pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
 #' df <- read_pzfx(pzfx_file, table = 1, strike_action = "exclude")
 #' write_pzfx(df, path = tempfile(fileext = ".pzfx"), row_names = TRUE)
-write_pzfx <- function(x, path, row_names=TRUE, x_col=NA) {
+write_pzfx <- function(x, path, row_names=TRUE, x_col=NA, n_digits=NA) {
   # figure out if x is a single table or multiple of them
   if (inherits(x, c("data.frame", "matrix"))) {
     x_lst <- list("Data 1"=x)
@@ -83,7 +86,7 @@ write_pzfx <- function(x, path, row_names=TRUE, x_col=NA) {
 
   lst <- base_lst()
   lst$GraphPadPrismFile$TableSequence <- table_seq_lst(x_lst)
-  lst$GraphPadPrismFile <- append(lst$GraphPadPrismFile, table_lst(x_lst, row_names, x_col))
+  lst$GraphPadPrismFile <- append(lst$GraphPadPrismFile, table_lst(x_lst, row_names, x_col, n_digits))
   attr(lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
   xml <- xml2::as_xml_document(lst)
   xml2::write_xml(xml, path)
@@ -148,7 +151,7 @@ table_seq_lst <- function(x_lst) {
 # "Table" elements of the list for a pzfx xml
 # As many tables as you have
 # Currently only supports pzfx's "Column" type of tables
-table_lst <- function(x_lst, row_names, x_col) {
+table_lst <- function(x_lst, row_names, x_col, n_digits) {
   if (length(x_lst) != length(row_names)) {
     stop("Argument 'row_names' can only be of the same length as 'x_lst'")
   }
@@ -162,6 +165,22 @@ table_lst <- function(x_lst, row_names, x_col) {
     v <- as.vector(v)
     lapply(v, function(e) list("d"=list(as.character(e))))
   }
+  decimal_helper <- function(v, n_digits) {
+    n_digits <- round(n_digits)
+    # if data is of integer type then we don't want to introduce any decimals
+    if (is.integer(v)) {
+      return("0")
+    }
+    # if n_digits is specified just go with that
+    if (!is.na(n_digits)) {
+      return(as.character(n_digits))
+    }
+    # otherwise we make a guess. if data looks like integer return 0, otherwise 2
+    if (all(v %% 1 == 0, na.rm=TRUE)) {
+      return("0")
+    }
+    return("2")
+  }
   ret <- lapply(seq_len(length(x_lst)), function(i) {
     this_df <- x_lst[[i]]
     cols <- lapply(seq_len(ncol(this_df)), function(c) {
@@ -171,7 +190,7 @@ table_lst <- function(x_lst, row_names, x_col) {
           "Subcolumn"=subcol_helper(this_df[, c, drop=TRUE])
         ),
         Width="89",
-        Decimals="0",
+        Decimals=decimal_helper(this_df[, c, drop=TRUE], n_digits),
         Subcolumns="1"
       )
     })
