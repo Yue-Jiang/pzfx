@@ -4,7 +4,7 @@
 \alias{write_pzfx}
 \title{Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file}
 \usage{
-write_pzfx(x, path, row_names = TRUE, x_col = NA)
+write_pzfx(x, path, row_names = TRUE, x_col = NA, n_digits = NA)
 }
 \arguments{
 \item{x}{Input table or named list of tables that will be 'Data Tables' in the '.pzfx' file}
@@ -18,6 +18,10 @@ list of input tables. Default: TRUE.}
 \item{x_col}{1-based column index or name of the column to be used as the 'X' column. If the
 length is greater than 1, it must match the length of list of input tables. All other columns
 in the input tables will be treated as "Y" columns in the output '.pzfx' file. Default: NA}
+
+\item{n_digits}{An integer specifying the number of digits to display for float values in the
+generated '.pzfx' file. This argument has no effect if data is of type 'integer'. Note this
+argument only affects how many digits are displayed. The actual data does not change.}
 }
 \value{
 write_pzfx returns the input x invisibly.
