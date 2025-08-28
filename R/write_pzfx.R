@@ -214,9 +214,9 @@ write_pzfx <- function(x, path,
                                     DateTime = utc_iso8601()
         )
       )
-    ), PrismXMLVersion = "5.00")
+    ))
   )
-
+  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
   # Optional notes
   if (!is.null(n_lst)) {
     base_lst$GraphPadPrismFile$InfoSequence <- lapply(seq_along(n_lst), function(i) {
