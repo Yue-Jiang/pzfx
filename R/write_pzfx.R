@@ -1,225 +1,253 @@
-#' Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file
+#' Write one or more tables to a GraphPad Prism .pzfx file
 #'
-#' Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file. A table can be a 'matrix',
-#'   a 'data.frame', or a 'tibble'. All elements of the table should be numeric.
+#' All parameters except path and notes can be of length 1, or the length of the list of input tables.
 #'
-#' @param x Input table or named list of tables that will be 'Data Tables' in the '.pzfx' file
-#' @param path Path to the output '.pzfx' file.
-#' @param row_names Logical. If row names of the input table should be preserved and become row
-#'   titles in the output '.pzfx' file. If the length is greater than 1, it must match the length of
-#'   list of input tables. Default: TRUE.
-#' @param x_col 1-based column index or name of the column to be used as the 'X' column. If the
-#'   length is greater than 1, it must match the length of list of input tables. All other columns
-#'   in the input tables will be treated as "Y" columns in the output '.pzfx' file. Default: NA
-#' @param n_digits An integer specifying the number of digits to display for float values in the
-#'   generated '.pzfx' file. This argument has no effect if data is of type 'integer'. Note this
-#'   argument only affects how many digits are displayed. The actual data does not change.
-#'
-#' @return write_pzfx returns the input x invisibly.
-#'
+#' @param x Data frame or named list of data frames to include as Prism tables.
+#' @param path Path to output file.
+#' @param row_names Logical or logical vector: include row names as row titles?
+#' @param x_col Column index or name(s) for X column (0 for none).
+#' @param x_err Column index or name(s) for X error (0 for none).
+#' @param n_digits Number of decimal places to display for numeric data.
+#' @param notes Notes table(s) with columns Name and Value.
+#' @param subcolumns Number of subcolumns for Y data, or "SDN".
+#' @param subcolumn_suffix Regex or string identifying grouped subcolumns.
+#' @return Invisibly returns `x`.
 #' @export
-#'
-#' @examples
-#' pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
-#' df <- read_pzfx(pzfx_file, table = 1, strike_action = "exclude")
-#' write_pzfx(df, path = tempfile(fileext = ".pzfx"), row_names = TRUE)
-write_pzfx <- function(x, path, row_names=TRUE, x_col=NA, n_digits=NA) {
-  # figure out if x is a single table or multiple of them
-  if (inherits(x, c("data.frame", "matrix"))) {
-    x_lst <- list("Data 1"=x)
-  } else if (inherits(x, "list")) {
-    x_lst <- x
-    if (is.null(names(x_lst))) names(x_lst) <- paste("Data", seq_len(length(x_lst)))
-    are_dfs <- sapply(x_lst, function(x) inherits(x, c("data.frame", "matrix")))
-    if (any(!are_dfs)) stop(sprintf("These elements are not data frame or matrix: %s",
-                                    paste(names(x_lst)[!are_dfs], collapse=", ")))
-  } else {
-    stop(sprintf("Cannot process x of class %s", paste(class(x), collapse=", ")))
-  }
-  # make sure all elements are numeric
-  are_nums <- sapply(x_lst, function(x) all(sapply(x, is.numeric)))
-  if (any(!are_nums)) {
-    stop(paste0("These tables are not all numeric: ",
-                paste(names(x_lst)[!are_nums], collapse=", "),
-                ". Such tables are not supported by Prism GraphPad. ",
-                "You may want to spread / pivot the input data by non-numeric columns into a 'wide' format, ",
-                "where the table elements are all numeric."
-    ))
-  }
-  # make sure row_names matches the length of x_lst
-  if (length(row_names) == 1) row_names <- rep(row_names, length(x_lst))
-  if (length(row_names) != length(x_lst)) {
-    stop("Argument 'row_names' can only be of length 1 or the length of 'x'")
-  }
-  # convert other kinds of x_col specifications to a vector of integers
-  if (length(x_col) == 1) x_col <- rep(x_col, length(x_lst))
-  if (length(x_col) != length(x_lst)) {
-    stop("Argument 'x_col' can only be of length 1 or the length of 'x'")
-  }
-  x_col[is.na(x_col)] <- 0
-  if (is.numeric(x_col)) {
-    x_col <- as.integer(x_col)
-    if (any(x_col > sapply(x_lst, ncol))) {
-      vio <- which(x_col > sapply(x_lst, ncol))
-      stop(sprintf("Not enough columns for table %s", paste(names(x_lst)[vio], collapse=", ")))
-    }
-  }
-  if (is.character(x_col)) {
-    for (i in seq_len(length(x_col))) {
-      idx <- which(colnames(x_lst[[i]]) == x_col[i])
-      if (length(idx) == 0) {
-        warning(sprintf(
-          "Column %s is not in table %s, not used as 'X' column",
-          x_col[i], names(x_lst[[i]])))
-        x_col[i] <- 0
-      } else if (length(idx) > 1) {
-        warning(sprintf(
-          "Column %s has multiple occurance in table %s, only the first one used as 'X' column",
-          x_col[i], names(x_lst[[i]])))
-        x_col[i] <- idx[1]
-      } else {
-        x_col[i] <- idx
-      }
-    }
-    x_col <- as.integer(x_col)
+write_pzfx <- function(x, path,
+                       row_names = TRUE,
+                       x_col = NA,
+                       x_err = NA,
+                       n_digits = 2,
+                       notes = NA,
+                       subcolumns = 1,
+                       subcolumn_suffix = "") {
+
+  ## ------------------------
+  ## Helper functions
+  ## ------------------------
+
+  utc_iso8601 <- function(t = Sys.time()) {
+    format(as.POSIXct(t, tz = "UTC"), "%Y-%m-%dT%H:%M:%S+00:00")
   }
 
-  lst <- base_lst()
-  lst$GraphPadPrismFile$TableSequence <- table_seq_lst(x_lst)
-  lst$GraphPadPrismFile <- append(lst$GraphPadPrismFile, table_lst(x_lst, row_names, x_col, n_digits))
-  attr(lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
-  xml <- xml2::as_xml_document(lst)
+  require_length <- function(arg, n, name) {
+    if (length(arg) == 1) arg <- rep(arg, n)
+    if (length(arg) != n)
+      stop(sprintf("Argument '%s' must have length 1 or %d", name, n), call. = FALSE)
+    arg
+  }
+
+  coerce_to_list_of_dfs <- function(obj, prefix) {
+    if (inherits(obj, c("data.frame", "matrix"))) {
+      setNames(list(obj), paste(prefix, 1))
+    } else if (is.list(obj)) {
+      if (is.null(names(obj))) names(obj) <- paste(prefix, seq_along(obj))
+      bad <- !vapply(obj, inherits, logical(1), what = c("data.frame", "matrix"))
+      if (any(bad)) stop(sprintf("These %s elements are not data.frames/matrices: %s",
+                                 prefix, paste(names(obj)[bad], collapse = ", ")), call. = FALSE)
+      obj
+    } else if (length(obj) == 1 && is.na(obj)) {
+      NULL
+    } else {
+      stop(sprintf("Cannot process %s of class %s", prefix, paste(class(obj), collapse = ", ")), call. = FALSE)
+    }
+  }
+
+  normalise_col_arg <- function(arg, lst, label) {
+    arg <- require_length(arg, length(lst), label)
+    arg[is.na(arg)] <- 0
+    if (is.character(arg)) {
+      arg <- vapply(seq_along(arg), function(i) {
+        if (identical(arg[i], "")) return(0L)
+        idx <- which(colnames(lst[[i]]) == arg[i])
+        if (!length(idx)) {
+          warning(sprintf("Column '%s' not in table '%s'; ignored as %s",
+                          arg[i], names(lst)[i], label), call. = FALSE)
+          0L
+        } else idx[1]
+      }, integer(1))
+    }
+    as.integer(arg)
+  }
+
+  subcol_helper <- function(v) {
+    lapply(as.vector(v), function(e) {
+      e <- as.character(e)
+      if (is.na(e)) return(list("d" = list(NA_character_)))
+      if (grepl("\\*$", e)) {
+        val <- sub("\\*$", "", e)
+        return(list("d" = structure(list(val), Excluded = "1")))
+      }
+      list("d" = list(e))
+    })
+  }
+
+  build_xcol_structure <- function(df, x_idx, x_err_idx, n_digits) {
+    if (x_idx == 0) return(list())
+    if (x_err_idx == 0) {
+      list(XColumn = structure(
+        list(Title = list(names(df)[x_idx]),
+             Subcolumn = subcol_helper(df[[x_idx]])),
+        Width = "89", Decimals = as.character(n_digits), Subcolumns = "1"
+      ))
+    } else {
+      subs <- lapply(c(x_idx, x_err_idx), function(cidx) subcol_helper(df[[cidx]]))
+      names(subs) <- rep("Subcolumn", length(subs))
+      list(XColumn = structure(
+        append(list(Title = list(names(df)[x_idx])), subs),
+        Width = "120", Decimals = as.character(n_digits), Subcolumns = "2"
+      ))
+    }
+  }
+
+  generate_subcolumns <- function(df, expected_count, subcolumn_suffix, n_digits) {
+    grouping_factor <- sub(subcolumn_suffix, "", names(df))
+    grouped <- split.default(df, grouping_factor)
+    grouped <- grouped[unique(grouping_factor)]
+    final <- lapply(grouped, function(gdf) {
+      if (ncol(gdf) < expected_count) {
+        pad <- matrix(NA, nrow = nrow(gdf), ncol = expected_count - ncol(gdf))
+        gdf <- cbind(gdf, pad)
+      }
+      subs <- lapply(seq_len(ncol(gdf)), function(c) subcol_helper(gdf[[c]]))
+      names(subs) <- rep("Subcolumn", length(subs))
+      structure(append(list(Title = list(names(grouped)[[1]])), subs),
+                Width = as.character(89 * expected_count),
+                Decimals = as.character(n_digits),
+                Subcolumns = as.character(expected_count))
+    })
+    names(final) <- rep("YColumn", length(final))
+    final
+  }
+
+  table_lst <- function(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix) {
+    lapply(seq_along(x_lst), function(i) {
+      df <- x_lst[[i]]
+      xi <- x_col[i]; xe <- x_err[i]; subc <- subcolumns[i]; suffix <- subcolumn_suffix[i]
+      ndig <- n_digits[i]
+      y_format <- "replicates"; table_type <- "OneWay"; x_format <- "none"
+      if (identical(subc, "SDN")) { y_format <- "SDN"; subc <- 3L }
+      xcols <- build_xcol_structure(df, xi, xe, ndig)
+      if (length(xcols)) { x_format <- if (xe == 0) "numbers" else "error"; table_type <- "XY" }
+      df_y <- df[, setdiff(seq_len(ncol(df)), c(xi, xe)), drop = FALSE]
+      ycols <- generate_subcolumns(df_y, as.integer(subc), suffix, ndig)
+      meta <- list(Title = list(names(x_lst)[i]))
+      if (row_names[i]) {
+        meta$RowTitlesColumn <- structure(list(Subcolumn = subcol_helper(row.names(df_y))), Width = "39")
+      }
+      structure(append(meta, append(xcols, ycols)),
+                ID = sprintf("Table%d", i - 1),
+                XFormat = x_format, YFormat = y_format,
+                Replicates = as.character(subc),
+                TableType = table_type, EVFormat = "AsteriskAfterNumber")
+    }) |> `names<-`(rep("Table", length(x_lst)))
+  }
+
+  info_lst <- function(notes_lst) {
+    lapply(seq_along(notes_lst), function(i) {
+      df <- notes_lst[[i]]
+      notes_rows <- df[df$Name == "Notes", , drop = FALSE]
+      constants <- df[df$Name != "Notes", , drop = FALSE]
+      notes_block <- list(Title = list(names(notes_lst)[i]),
+                          Notes = list(Font = structure(list(), Color = "#000000", Face = "Helvetica")))
+      if (nrow(notes_rows) > 0) {
+        note_values <- notes_rows$Value
+        notes_block$Notes <- list(Font = structure(
+          lapply(note_values, function(x) list(x, list(BR = list()))),
+          Color = "#000000", Face = "Helvetica"
+        ))
+      }
+      if (nrow(constants) > 0) {
+        const_blocks <- lapply(seq_len(nrow(constants)), function(j) {
+          list(Constant = list(Name = list(constants$Name[j]), Value = list(constants$Value[j])))
+        })
+        notes_block <- append(notes_block, const_blocks)
+      }
+      structure(notes_block, ID = sprintf("Info%d", i - 1))
+    }) |> `names<-`(rep("Info", length(notes_lst)))
+  }
+
+  ## ------------------------
+  ## Main body
+  ## ------------------------
+
+  # Defaults & coercion
+  if (length(notes) == 1 && is.na(notes)) {
+    notes <- list(data.frame(Name = "Notes", Value = NA_character_))
+  }
+  n_lst <- coerce_to_list_of_dfs(notes, "Project Info")
+  x_lst <- coerce_to_list_of_dfs(x, "Data")
+
+  # Warnings for non-numeric
+  for (nm in names(x_lst)) {
+    bad_cols <- names(x_lst[[nm]])[!vapply(x_lst[[nm]], is.numeric, logical(1))]
+    if (length(bad_cols)) {
+      warning(sprintf(
+        "Table '%s' has non‑numeric columns: %s. Prism will ignore them; trailing * marks exclusions.",
+        nm, paste(bad_cols, collapse = ", ")
+      ), call. = FALSE)
+    }
+  }
+
+  # Normalise vector arguments to correct length
+  row_names        <- require_length(row_names, length(x_lst), "row_names")
+  subcolumns       <- require_length(subcolumns, length(x_lst), "subcolumns")
+  subcolumn_suffix <- require_length(subcolumn_suffix, length(x_lst), "subcolumn_suffix")
+  n_digits         <- require_length(n_digits, length(x_lst), "n_digits")
+
+  # Column index handling
+  x_col <- normalise_col_arg(x_col, x_lst, "x_col")
+  x_err <- normalise_col_arg(x_err, x_lst, "x_err")
+
+
+  ## ------------------------
+  ## Assemble XML structure
+  ## ------------------------
+
+  base_lst <- list(
+    GraphPadPrismFile = structure(list(
+      Created = list(
+        OriginalVersion = structure(list(),
+                                    CreatedByProgram = "GraphPad Prism",
+                                    CreatedByVersion = "6.0f.254",
+                                    Login = "",
+                                    DateTime = utc_iso8601()
+        )
+      )
+    ))
+  )
+  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
+  # Optional notes
+  if (!is.null(n_lst)) {
+    base_lst$GraphPadPrismFile$InfoSequence <- lapply(seq_along(n_lst), function(i) {
+      ref <- structure(list(), ID = sprintf("Info%d", i - 1))
+      if (i == 1) attr(ref, "Selected") <- "1"
+      ref
+    }) |> `names<-`(rep("Ref", length(n_lst)))
+
+    base_lst$GraphPadPrismFile <- append(
+      base_lst$GraphPadPrismFile,
+      info_lst(n_lst)
+    )
+  }
+
+  # Table sequence and table content
+  base_lst$GraphPadPrismFile$TableSequence <- lapply(seq_along(x_lst), function(i) {
+    ref <- structure(list(), ID = sprintf("Table%d", i - 1))
+    if (i == 1) attr(ref, "Selected") <- "1"
+    ref
+  }) |> `names<-`(rep("Ref", length(x_lst)))
+
+  base_lst$GraphPadPrismFile <- append(
+    base_lst$GraphPadPrismFile,
+    table_lst(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix)
+  )
+
+  ## ------------------------
+  ## Write to file
+  ## ------------------------
+
+  xml <- xml2::as_xml_document(base_lst)
   xml2::write_xml(xml, path)
   invisible(x)
-}
-
-# The basic list for a pzfx xml
-base_lst <- function() {
-  lst <- list(
-    "GraphPadPrismFile"=list(
-      "Created"=list(
-        "OriginalVersion"=structure(
-          list(),
-          CreatedByProgram="GraphPad Prism",
-          CreatedByVersion="6.0f.254",
-          Login="",
-          DateTime=strftime(as.POSIXlt(Sys.time(), "UTC"), "%Y-%m-%dT%H:%M:%S+00:00")
-        )
-      ),
-      "InfoSequence"=list(
-        "Ref"=structure(
-          list(),
-          "ID"="Info0",
-          "Selected"="1"
-        )
-      ),
-      "Info"=structure(
-        list(
-          "Title"=list("Project info 1"),
-          "Notes"=list(""),
-          "Constant"=list("Name"=list("Experiment Date"), "Value"=list("")),
-          "Constant"=list("Name"=list("Experiment ID"), "Value"=list("")),
-          "Constant"=list("Name"=list("Notebook ID"), "Value"=list("")),
-          "Constant"=list("Name"=list("Project"), "Value"=list("")),
-          "Constant"=list("Name"=list("Experimenter"), "Value"=list("")),
-          "Constant"=list("Name"=list("Protocol"), "Value"=list(""))
-        ),
-        "ID"="Info0"
-      )
-      # Then, the "TableSequence" list goes here
-      # Then, all "Table" lists go here
-    )
-  )
-  return(lst)
-}
-
-# "TableSequence" element of the list for a pzfx xml
-# Number of Refs corresponds to number of tables
-table_seq_lst <- function(x_lst) {
-  ret <- lapply(seq_len(length(x_lst)), function(i) {
-    ref <- structure(
-      list(),
-      "ID"=sprintf("Table%d", i - 1)
-    )
-    if (i == 1) attr(ref, "Selected") <- "1"
-    return(ref)
-  })
-  names(ret) <- rep("Ref", length(x_lst))
-  return(ret)
-}
-
-# "Table" elements of the list for a pzfx xml
-# As many tables as you have
-# Currently only supports pzfx's "Column" type of tables
-table_lst <- function(x_lst, row_names, x_col, n_digits) {
-  if (length(x_lst) != length(row_names)) {
-    stop("Argument 'row_names' can only be of the same length as 'x_lst'")
-  }
-  if (length(x_lst) != length(x_col)) {
-    stop("Argument 'x_col' can only be of the same length as 'x_lst'")
-  }
-  if (!is.integer(x_col)) {
-    stop("Argument 'x_col' can only be of type 'integer'")
-  }
-  subcol_helper <- function(v) {
-    v <- as.vector(v)
-    lapply(v, function(e) list("d"=list(as.character(e))))
-  }
-  decimal_helper <- function(v, n_digits) {
-    n_digits <- round(n_digits)
-    # if data is of integer type then we don't want to introduce any decimals
-    if (is.integer(v)) {
-      return("0")
-    }
-    # if n_digits is specified just go with that
-    if (!is.na(n_digits)) {
-      return(as.character(n_digits))
-    }
-    # otherwise we make a guess. if data looks like integer return 0, otherwise 2
-    if (all(v %% 1 == 0, na.rm=TRUE)) {
-      return("0")
-    }
-    return("2")
-  }
-  ret <- lapply(seq_len(length(x_lst)), function(i) {
-    this_df <- x_lst[[i]]
-    cols <- lapply(seq_len(ncol(this_df)), function(c) {
-      structure(
-        list(
-          "Title"=list(colnames(this_df)[c]),
-          "Subcolumn"=subcol_helper(this_df[, c, drop=TRUE])
-        ),
-        Width="89",
-        Decimals=decimal_helper(this_df[, c, drop=TRUE], n_digits),
-        Subcolumns="1"
-      )
-    })
-    names(cols) <- rep("YColumn", ncol(this_df))
-    names(cols)[x_col[i]] <- "XColumn"
-    one_table_lst <- list("Title"=list(names(x_lst)[i]))
-    if (row_names[i]) {
-      one_table_lst[["RowTitlesColumn"]] <- structure(
-        list("Subcolumn"=subcol_helper(row.names(this_df))),
-        Width="39"
-      )
-    }
-    one_table <- structure(
-      append(one_table_lst, cols),
-      ID=sprintf("Table%d", i - 1),
-      XFormat="none",
-      #YFormat="replicates",
-      #Replicates="1",
-      TableType="OneWay",
-      EVFormat="AsteriskAfterNumber"
-    )
-    if (x_col[i] > 0) {
-      attr(one_table, "XFormat") <- "numbers"
-      attr(one_table, "YFormat") <- "replicates"
-      attr(one_table, "Replicates") <- "1"
-      attr(one_table, "TableType") <- "XY"
-    }
-    return(one_table)
-  })
-  names(ret) <- rep("Table", length(x_lst))
-  return(ret)
 }
