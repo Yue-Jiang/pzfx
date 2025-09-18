@@ -216,7 +216,7 @@ write_pzfx <- function(x, path,
       )
     ))
   )
-  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
+  
   # Optional notes
   if (!is.null(n_lst)) {
     base_lst$GraphPadPrismFile$InfoSequence <- lapply(seq_along(n_lst), function(i) {
@@ -242,7 +242,7 @@ write_pzfx <- function(x, path,
     base_lst$GraphPadPrismFile,
     table_lst(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix)
   )
-
+  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
   ## ------------------------
   ## Write to file
   ## ------------------------
