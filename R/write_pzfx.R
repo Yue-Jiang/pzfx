@@ -158,7 +158,7 @@ write_pzfx <- function(x, path,
         ))
       }
       if (nrow(constants) > 0) {
-        const_blocks <- lapply(seq_len(nrow(constants)), function(j) {
+        const_blocks <- sapply(seq_len(nrow(constants)), function(j) {
           list(Constant = list(Name = list(constants$Name[j]), Value = list(constants$Value[j])))
         })
         notes_block <- append(notes_block, const_blocks)
