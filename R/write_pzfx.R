@@ -100,24 +100,35 @@ write_pzfx <- function(x, path,
     }
   }
 
-  generate_subcolumns <- function(df, expected_count, subcolumn_suffix, n_digits) {
-    grouping_factor <- sub(subcolumn_suffix, "", names(df))
-    grouped <- split.default(df, grouping_factor)
-    grouped <- grouped[unique(grouping_factor)]
-    final <- lapply(grouped, function(gdf) {
-      if (ncol(gdf) < expected_count) {
-        pad <- matrix(NA, nrow = nrow(gdf), ncol = expected_count - ncol(gdf))
-        gdf <- cbind(gdf, pad)
+  generate_subcolumns<-function(df,expected_count, subcolumn_suffix,n_digits) {
+   grouping_factor <- sub(subcolumn_suffix, "", names(df))
+   grouped <- split.default(df, f = grouping_factor)
+   grouped <-grouped[unique(grouping_factor)]
+    ret <- lapply(seq_len(length(grouped)), function(group) {
+      gdf <-grouped[[group]]
+      count_found <- ncol(gdf)
+      if (count_found > expected_count) {
+        stop(paste0("Group '", names(grouped[group], "' has ", count_found, " columns, but ",expected_count, " were expected.")))
       }
-      subs <- lapply(seq_len(ncol(gdf)), function(c) subcol_helper(gdf[[c]]))
-      names(subs) <- rep("Subcolumn", length(subs))
-      structure(append(list(Title = list(names(grouped)[[1]])), subs),
-                Width = as.character(89 * expected_count),
-                Decimals = as.character(n_digits),
-                Subcolumns = as.character(expected_count))
+      if (count_found < expected_count) {
+        num_to_add <- expected_count - count_found
+        padding_df <- as.data.frame(matrix(NA, nrow = nrow(gdf), ncol = num_to_add))
+        gdf <- cbind(gdf, padding_df)
+      }
+      subcols<-lapply(seq_len(ncol(gdf)), function(c) {subcol_helper(gdf[, c, drop=TRUE])})
+      names(subcols)<-rep(c("Subcolumn"),length(subcols))
+      title_list=list("Title"=list(names(grouped[group])))
+      cols <- structure(
+        append(title_list,subcols),
+        Width=as.character(89*expected_count),
+        Decimals=as.character(n_digits), #It doesn't really matter as it is easy to change
+        Subcolumns=as.character(expected_count)
+      )
+      
+      return(cols)
     })
-    names(final) <- rep("YColumn", length(final))
-    final
+    names(ret)<-rep("YColumn",length(ret))
+    return(ret)
   }
 
   table_lst <- function(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix) {
@@ -158,7 +169,7 @@ write_pzfx <- function(x, path,
         ))
       }
       if (nrow(constants) > 0) {
-        const_blocks <- lapply(seq_len(nrow(constants)), function(j) {
+        const_blocks <- sapply(seq_len(nrow(constants)), function(j) {
           list(Constant = list(Name = list(constants$Name[j]), Value = list(constants$Value[j])))
         })
         notes_block <- append(notes_block, const_blocks)
@@ -216,7 +227,7 @@ write_pzfx <- function(x, path,
       )
     ))
   )
-  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
+  
   # Optional notes
   if (!is.null(n_lst)) {
     base_lst$GraphPadPrismFile$InfoSequence <- lapply(seq_along(n_lst), function(i) {
@@ -242,7 +253,7 @@ write_pzfx <- function(x, path,
     base_lst$GraphPadPrismFile,
     table_lst(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix)
   )
-
+  attr(base_lst$GraphPadPrismFile, "PrismXMLVersion") <- "5.00"
   ## ------------------------
   ## Write to file
   ## ------------------------
