@@ -39,12 +39,15 @@ write_pzfx <- function(x, path,
 
   coerce_to_list_of_dfs <- function(obj, prefix) {
     if (inherits(obj, c("data.frame", "matrix"))) {
+      if (is.matrix(obj)) obj <- as.data.frame(obj)
       setNames(list(obj), paste(prefix, 1))
     } else if (is.list(obj)) {
       if (is.null(names(obj))) names(obj) <- paste(prefix, seq_along(obj))
       bad <- !vapply(obj, inherits, logical(1), what = c("data.frame", "matrix"))
       if (any(bad)) stop(sprintf("These %s elements are not data.frames/matrices: %s",
                                  prefix, paste(names(obj)[bad], collapse = ", ")), call. = FALSE)
+      # Convert any matrices in the list to data frames
+      obj <- lapply(obj, function(x) if (is.matrix(x)) as.data.frame(x) else x)
       obj
     } else if (length(obj) == 1 && is.na(obj)) {
       NULL
@@ -101,14 +104,19 @@ write_pzfx <- function(x, path,
   }
 
   generate_subcolumns<-function(df,expected_count, subcolumn_suffix,n_digits) {
-   grouping_factor <- sub(subcolumn_suffix, "", names(df))
+   col_names <- names(df)
+   if (is.null(col_names) || length(col_names) == 0) {
+     col_names <- paste0("V", seq_len(ncol(df)))
+     names(df) <- col_names
+   }
+   grouping_factor <- sub(subcolumn_suffix, "", col_names)
    grouped <- split.default(df, f = grouping_factor)
    grouped <-grouped[unique(grouping_factor)]
     ret <- lapply(seq_len(length(grouped)), function(group) {
       gdf <-grouped[[group]]
       count_found <- ncol(gdf)
       if (count_found > expected_count) {
-        stop(paste0("Group '", names(grouped[group], "' has ", count_found, " columns, but ",expected_count, " were expected.")))
+        stop(paste0("Group '", names(grouped)[group], "' has ", count_found, " columns, but ", expected_count, " were expected."))
       }
       if (count_found < expected_count) {
         num_to_add <- expected_count - count_found
@@ -189,12 +197,12 @@ write_pzfx <- function(x, path,
   n_lst <- coerce_to_list_of_dfs(notes, "Project Info")
   x_lst <- coerce_to_list_of_dfs(x, "Data")
 
-  # Warnings for non-numeric
+  # Warn about non-numeric columns
   for (nm in names(x_lst)) {
     bad_cols <- names(x_lst[[nm]])[!vapply(x_lst[[nm]], is.numeric, logical(1))]
     if (length(bad_cols)) {
       warning(sprintf(
-        "Table '%s' has non‑numeric columns: %s. Prism will ignore them; trailing * marks exclusions.",
+        "Table '%s' has non-numeric columns (%s) which will be written as text. Values ending with '*' will be marked as excluded in Prism.",
         nm, paste(bad_cols, collapse = ", ")
       ), call. = FALSE)
     }
@@ -210,6 +218,13 @@ write_pzfx <- function(x, path,
   x_col <- normalise_col_arg(x_col, x_lst, "x_col")
   x_err <- normalise_col_arg(x_err, x_lst, "x_err")
 
+  # Validate column indices are within bounds
+  for (i in seq_along(x_lst)) {
+    nc <- ncol(x_lst[[i]])
+    if (x_col[i] > nc || x_err[i] > nc) {
+      stop(sprintf("Not enough columns for table %s", names(x_lst)[i]), call. = FALSE)
+    }
+  }
 
   ## ------------------------
   ## Assemble XML structure
