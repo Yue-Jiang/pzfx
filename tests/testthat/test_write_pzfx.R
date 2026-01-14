@@ -48,14 +48,14 @@ test_that("Test writing matrix works", {
 test_that("Should raise when provided with wrong type of input", {
   tmp <- tempfile(fileext=".pzfx")
   on.exit(unlink(tmp))
-  expect_error(write_pzfx(1:10, tmp, row_names=FALSE), "Cannot process x of class integer")
-  expect_error(write_pzfx(rnorm(10), tmp, row_names=FALSE), "Cannot process x of class numeric")
+  expect_error(write_pzfx(1:10, tmp, row_names=FALSE), "Cannot process Data of class integer")
+  expect_error(write_pzfx(rnorm(10), tmp, row_names=FALSE), "Cannot process Data of class numeric")
   expect_error(write_pzfx("Existence is pain", tmp, row_names=FALSE),
-               "Cannot process x of class character")
-  expect_error(write_pzfx(data.frame("X"=c("a", "b"), "Y"=1:2), tmp, row_names=FALSE),
-               "These tables are not all numeric: Data 1")
+               "Cannot process Data of class character")
+  expect_warning(write_pzfx(data.frame("X"=c("a", "b"), "Y"=1:2), tmp, row_names=FALSE),
+                 "non-numeric columns")
   expect_error(write_pzfx(list("a"=1:10), tmp, row_names=FALSE),
-               "These elements are not data frame or matrix: a")
+               "These Data elements are not data.frames/matrices: a")
 })
 
 test_that("Should raise when provided with wrong 'x_col'", {
@@ -64,12 +64,12 @@ test_that("Should raise when provided with wrong 'x_col'", {
   expect_error(write_pzfx(data.frame("SingleColumn"=1:10), tmp, x_col=2),
                "Not enough columns for table Data 1")
   expect_error(write_pzfx(list(data.frame(1:2), data.frame(3:4)), tmp, x_col=c(1, 1, 1)),
-               "Argument 'x_col' can only be of length 1 or the length of 'x'")
+               "Argument 'x_col' must have length 1 or 2")
 })
 
 test_that("Should raise when provided with wrong 'row_names'", {
   tmp <- tempfile(fileext=".pzfx")
   on.exit(unlink(tmp))
   expect_error(write_pzfx(list(data.frame(1:2), data.frame(3:4)), tmp, row_names=c(TRUE, FALSE, TRUE)),
-               "Argument 'row_names' can only be of length 1 or the length of 'x'")
+               "Argument 'row_names' must have length 1 or 2")
 })
