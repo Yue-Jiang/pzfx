@@ -1,15 +1,11 @@
-## Test environments
-* local OS X install, R 3.6.1
-* ubuntu 16.04 (on travis-ci, devel and release)
-* win-builder (devel and release)
-
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTES.
-  
-There were two flagged spelling issues:
 
-* "GraphPad": this is inherited from GraphPad Prism and is spelled correctly.
-* "tibble": this is inherited from the tibble package and is spelled correctly.
+0 errors | 0 warnings | 0 notes
+
+## Test environments
+- local macOS (aarch64-apple-darwin20), R 4.5.1
+- GitHub Actions: macOS-latest (R release), Windows-latest (R release), Ubuntu-latest (R devel, release, oldrel-1)
 
 ## Downstream dependencies
-There are no downstream dependencies at this time.
+
+There are no downstream dependencies.

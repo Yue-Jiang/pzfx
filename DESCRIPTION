@@ -1,7 +1,7 @@
 Package: pzfx
 Type: Package
 Title: Read and Write 'GraphPad Prism' Files
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517")),
     person("David", "Micklem", role = "ctb", email = "dmicklem@gmail.com")
@@ -13,7 +13,6 @@ Imports:
     xml2 (>= 1.2.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.3.3
 Suggests: testthat,
     knitr,

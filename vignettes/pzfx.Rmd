@@ -66,6 +66,6 @@ unlink(tmp)
 
 - Prism allows user to exclude data by striking them out individual observations. To accommodate this, an option `strike_action` is available in `read_pzfx`. One can choose to delete these values with `strike_action="exclude"`, keep them with `"keep"`, or convert them to a trailing "*" (as they appear in Prism) with `"star"`. Note if `strike_action="star"` the entire table is converted to type `character`. 
 
-- Prism allows special formating of column names such as superscripts. When reading into R, column names with special formating are converted to regular strings.
+- Prism allows special formatting of column names such as superscripts. When reading into R, column names with special formatting are converted to regular strings.
 
-- For writing, because R data frames and matrices don't support hierachical columns, the written out `.pzfx` files can only be of type "Column" or "XY", depending on whether the "X" column is specified by `x_col`.
+- For writing, because R data frames and matrices don't support hierarchical columns, the written out `.pzfx` files can only be of type "Column" or "XY", depending on whether the "X" column is specified by `x_col`.

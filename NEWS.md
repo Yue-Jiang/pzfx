@@ -1,3 +1,10 @@
+# pzfx 0.3.1
+## New features
+* Added more flexible writing support: notes, subcolumns, and additional table formatting options.
+
+## Changes
+* Added David Micklem as contributor.
+
 # pzfx 0.1.0
 ## New features
 * Initial CRAN release. See the documentation at https://yue-jiang.github.io/pzfx/.
