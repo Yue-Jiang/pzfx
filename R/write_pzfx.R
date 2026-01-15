@@ -5,13 +5,14 @@
 #' @param x Data frame or named list of data frames to include as Prism tables.
 #' @param path Path to output file.
 #' @param row_names Logical or logical vector: include row names as row titles?
-#' @param x_col Column index or name(s) for X column (0 for none).
-#' @param x_err Column index or name(s) for X error (0 for none).
-#' @param n_digits Number of decimal places to display for numeric data.
-#' @param notes Notes table(s) with columns Name and Value.
-#' @param subcolumns Number of subcolumns for Y data, or "SDN".
-#' @param subcolumn_suffix Regex or string identifying grouped subcolumns.
+#' @param x_col Column index or name(s) for X column (0 or NA for none).
+#' @param x_err Column index or name(s) for X error (0 or NA for none).
+#' @param n_digits Number of decimal places to display for numeric data. Default: 2.
+#' @param notes Notes table(s) with columns Name and Value. Default: NA (empty notes).
+#' @param subcolumns Number of subcolumns for Y data, or "SDN" for mean/SD/N format. Default: 1.
+#' @param subcolumn_suffix Regex or string identifying grouped subcolumns (e.g., "_[0-9]+$" to group A_1, A_2 as column A). Default: "" (no grouping).
 #' @return Invisibly returns `x`.
+#' @importFrom stats setNames
 #' @export
 write_pzfx <- function(x, path,
                        row_names = TRUE,
@@ -201,10 +202,41 @@ write_pzfx <- function(x, path,
   for (nm in names(x_lst)) {
     bad_cols <- names(x_lst[[nm]])[!vapply(x_lst[[nm]], is.numeric, logical(1))]
     if (length(bad_cols)) {
-      warning(sprintf(
-        "Table '%s' has non-numeric columns (%s) which will be written as text. Values ending with '*' will be marked as excluded in Prism.",
-        nm, paste(bad_cols, collapse = ", ")
-      ), call. = FALSE)
+      # Check for values that are neither numeric nor *-suffixed
+      problem_values <- character(0)
+      for (col in bad_cols) {
+        vals <- x_lst[[nm]][[col]]
+        vals <- vals[!is.na(vals)]
+        for (v in vals) {
+          v_str <- as.character(v)
+          # Skip if it ends with * (exclusion marker)
+          if (grepl("\\*$", v_str)) next
+          # Skip if it can be converted to numeric
+          if (!is.na(suppressWarnings(as.numeric(v_str)))) next
+          # This is a problematic value
+          problem_values <- c(problem_values, v_str)
+        }
+      }
+      problem_values <- unique(problem_values)
+
+      if (length(problem_values) > 0) {
+        # Stronger warning for non-numeric, non-exclusion values
+        sample_vals <- if (length(problem_values) > 3) {
+          paste(c(problem_values[1:3], "..."), collapse = ", ")
+        } else {
+          paste(problem_values, collapse = ", ")
+        }
+        warning(sprintf(
+          "Table '%s' has non-numeric columns (%s) containing text values that cannot be converted to numbers: %s. These will be written as literal text in Prism, which may not be what you intended.",
+          nm, paste(bad_cols, collapse = ", "), sample_vals
+        ), call. = FALSE)
+      } else {
+        # Milder warning when all values are either numeric or *-suffixed
+        warning(sprintf(
+          "Table '%s' has non-numeric columns (%s) which will be written as text. Values ending with '*' will be marked as excluded in Prism.",
+          nm, paste(bad_cols, collapse = ", ")
+        ), call. = FALSE)
+      }
     }
   }
 

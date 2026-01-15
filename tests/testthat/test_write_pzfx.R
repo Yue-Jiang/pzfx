@@ -53,7 +53,7 @@ test_that("Should raise when provided with wrong type of input", {
   expect_error(write_pzfx("Existence is pain", tmp, row_names=FALSE),
                "Cannot process Data of class character")
   expect_warning(write_pzfx(data.frame("X"=c("a", "b"), "Y"=1:2), tmp, row_names=FALSE),
-                 "non-numeric columns")
+                 "cannot be converted to numbers")
   expect_error(write_pzfx(list("a"=1:10), tmp, row_names=FALSE),
                "These Data elements are not data.frames/matrices: a")
 })

@@ -2,36 +2,42 @@
 % Please edit documentation in R/write_pzfx.R
 \name{write_pzfx}
 \alias{write_pzfx}
-\title{Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file}
+\title{Write one or more tables to a GraphPad Prism .pzfx file}
 \usage{
-write_pzfx(x, path, row_names = TRUE, x_col = NA, n_digits = NA)
+write_pzfx(
+  x,
+  path,
+  row_names = TRUE,
+  x_col = NA,
+  x_err = NA,
+  n_digits = 2,
+  notes = NA,
+  subcolumns = 1,
+  subcolumn_suffix = ""
+)
 }
 \arguments{
-\item{x}{Input table or named list of tables that will be 'Data Tables' in the '.pzfx' file}
+\item{x}{Data frame or named list of data frames to include as Prism tables.}
 
-\item{path}{Path to the output '.pzfx' file.}
+\item{path}{Path to output file.}
 
-\item{row_names}{Logical. If row names of the input table should be preserved and become row
-titles in the output '.pzfx' file. If the length is greater than 1, it must match the length of
-list of input tables. Default: TRUE.}
+\item{row_names}{Logical or logical vector: include row names as row titles?}
 
-\item{x_col}{1-based column index or name of the column to be used as the 'X' column. If the
-length is greater than 1, it must match the length of list of input tables. All other columns
-in the input tables will be treated as "Y" columns in the output '.pzfx' file. Default: NA}
+\item{x_col}{Column index or name(s) for X column (0 or NA for none).}
 
-\item{n_digits}{An integer specifying the number of digits to display for float values in the
-generated '.pzfx' file. This argument has no effect if data is of type 'integer'. Note this
-argument only affects how many digits are displayed. The actual data does not change.}
+\item{x_err}{Column index or name(s) for X error (0 or NA for none).}
+
+\item{n_digits}{Number of decimal places to display for numeric data. Default: 2.}
+
+\item{notes}{Notes table(s) with columns Name and Value. Default: NA (empty notes).}
+
+\item{subcolumns}{Number of subcolumns for Y data, or "SDN" for mean/SD/N format. Default: 1.}
+
+\item{subcolumn_suffix}{Regex or string identifying grouped subcolumns (e.g., "_[0-9]+$" to group A_1, A_2 as column A). Default: "" (no grouping).}
 }
 \value{
-write_pzfx returns the input x invisibly.
+Invisibly returns `x`.
 }
 \description{
-Write one table or multiple tables to a 'GraphPad Prism' '.pzfx' file. A table can be a 'matrix',
-  a 'data.frame', or a 'tibble'. All elements of the table should be numeric.
-}
-\examples{
-pzfx_file <- system.file("extdata/exponential_decay.pzfx", package = "pzfx", mustWork = TRUE)
-df <- read_pzfx(pzfx_file, table = 1, strike_action = "exclude")
-write_pzfx(df, path = tempfile(fileext = ".pzfx"), row_names = TRUE)
+All parameters except path and notes can be of length 1, or the length of the list of input tables.
 }
