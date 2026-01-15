@@ -3,7 +3,8 @@ Type: Package
 Title: Read and Write 'GraphPad Prism' Files
 Version: 0.3.0
 Authors@R: c(
-    person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517"))
+    person("Yue", "Jiang", role = c("aut", "cre"), email = "rivehill@gmail.com", comment = c(ORCID = "0000-0002-9798-5517")),
+    person("David", "Micklem", role = "ctb", email = "dmicklem@gmail.com")
     )
 Description: Read and write 'GraphPad Prism' '.pzfx' files in R.
 URL: https://github.com/Yue-Jiang/pzfx

@@ -141,7 +141,7 @@ write_pzfx <- function(x, path,
   }
 
   table_lst <- function(x_lst, row_names, x_col, x_err, n_digits, subcolumns, subcolumn_suffix) {
-    lapply(seq_along(x_lst), function(i) {
+    tables <- lapply(seq_along(x_lst), function(i) {
       df <- x_lst[[i]]
       xi <- x_col[i]; xe <- x_err[i]; subc <- subcolumns[i]; suffix <- subcolumn_suffix[i]
       ndig <- n_digits[i]
@@ -160,11 +160,13 @@ write_pzfx <- function(x, path,
                 XFormat = x_format, YFormat = y_format,
                 Replicates = as.character(subc),
                 TableType = table_type, EVFormat = "AsteriskAfterNumber")
-    }) |> `names<-`(rep("Table", length(x_lst)))
+    })
+    names(tables) <- rep("Table", length(x_lst))
+    tables
   }
 
   info_lst <- function(notes_lst) {
-    lapply(seq_along(notes_lst), function(i) {
+    infos <- lapply(seq_along(notes_lst), function(i) {
       df <- notes_lst[[i]]
       notes_rows <- df[df$Name == "Notes", , drop = FALSE]
       constants <- df[df$Name != "Notes", , drop = FALSE]
@@ -184,7 +186,9 @@ write_pzfx <- function(x, path,
         notes_block <- append(notes_block, const_blocks)
       }
       structure(notes_block, ID = sprintf("Info%d", i - 1))
-    }) |> `names<-`(rep("Info", length(notes_lst)))
+    })
+    names(infos) <- rep("Info", length(notes_lst))
+    infos
   }
 
   ## ------------------------
@@ -277,11 +281,13 @@ write_pzfx <- function(x, path,
   
   # Optional notes
   if (!is.null(n_lst)) {
-    base_lst$GraphPadPrismFile$InfoSequence <- lapply(seq_along(n_lst), function(i) {
+    info_refs <- lapply(seq_along(n_lst), function(i) {
       ref <- structure(list(), ID = sprintf("Info%d", i - 1))
       if (i == 1) attr(ref, "Selected") <- "1"
       ref
-    }) |> `names<-`(rep("Ref", length(n_lst)))
+    })
+    names(info_refs) <- rep("Ref", length(n_lst))
+    base_lst$GraphPadPrismFile$InfoSequence <- info_refs
 
     base_lst$GraphPadPrismFile <- append(
       base_lst$GraphPadPrismFile,
@@ -290,11 +296,13 @@ write_pzfx <- function(x, path,
   }
 
   # Table sequence and table content
-  base_lst$GraphPadPrismFile$TableSequence <- lapply(seq_along(x_lst), function(i) {
+  table_refs <- lapply(seq_along(x_lst), function(i) {
     ref <- structure(list(), ID = sprintf("Table%d", i - 1))
     if (i == 1) attr(ref, "Selected") <- "1"
     ref
-  }) |> `names<-`(rep("Ref", length(x_lst)))
+  })
+  names(table_refs) <- rep("Ref", length(x_lst))
+  base_lst$GraphPadPrismFile$TableSequence <- table_refs
 
   base_lst$GraphPadPrismFile <- append(
     base_lst$GraphPadPrismFile,

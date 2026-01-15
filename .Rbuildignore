@@ -7,4 +7,5 @@
 ^pkgdown$
 ^\.github$
 ^CLAUDE\.md$
+^\.claude$
 ^temp$
