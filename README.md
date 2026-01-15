@@ -37,3 +37,7 @@ To write a list of data frames or matrices to a `.pzfx` file
 ```
 write_pzfx(list("Table Name 1" = df1, "Table Name 2" = df2), "/path/to/my/pzfx/file")
 ```
+
+# Note
+
+A few years after this package was first released, GraphPad has introduced a new file format `.prism` and is more open. If you are interested in working with the new format in R, please check out the [prism2R](https://github.com/Biomiha/prism2R) package by Miha Kosmac.
