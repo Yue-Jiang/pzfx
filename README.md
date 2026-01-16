@@ -1,5 +1,5 @@
 [![R-CMD-check](https://github.com/Yue-Jiang/pzfx/workflows/R-CMD-check/badge.svg)](https://github.com/Yue-Jiang/pzfx/actions)
-[![codecov](https://codecov.io/gh/Yue-Jiang/pzfx/branch/master/graph/badge.svg)](https://codecov.io/gh/Yue-Jiang/pzfx)
+[![codecov](https://codecov.io/gh/Yue-Jiang/pzfx/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Yue-Jiang/pzfx)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/pzfx)](https://cran.r-project.org/package=pzfx)
 
 # pzfx <img src="man/figures/logo.png" width="100" align="right" />

@@ -10,3 +10,4 @@
 ^\.claude$
 ^temp$
 ^CRAN-SUBMISSION$
+^revdep$
